@@ -1,0 +1,3 @@
+The LevelTransition Prefab has LevelMoverPrev and LevelMoverNext placed right next to each other.
+This is because when the Wall is deactivated, the player must go to the other LevelMover.
+If the distance between the LevelMover are too far, the Wall will be activated thus sending the player back.
