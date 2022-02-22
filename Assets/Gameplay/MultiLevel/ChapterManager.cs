@@ -1,31 +1,19 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Newtonsoft.Json;
 
 public class ChapterManager : MonoBehaviour
 {
-    private const string path = "Gameplay/MultiLevel/ChapterData.json";
-    private static GameManager _gameManager;
-    private static JsonSerializerSettings _jsonSettings;
-
-    private ChapterData _chapterData;
-
-    private void Awake()
-    {
-        if (_jsonSettings == null)
-        {
-            _jsonSettings = new JsonSerializerSettings();
-            _jsonSettings.Formatting = Formatting.Indented;
-        }
-
-        ReadChapterData();
-    }
+    [SerializeField] private Transform[] _cameraPos;
+    [SerializeField] private Transform[] _player0PosStart;
+    [SerializeField] private Transform[] _player0PosEnd;
+    [SerializeField] private Transform[] _player1PosStart;
+    [SerializeField] private Transform[] _player1PosEnd;
 
     // Start is called before the first frame update
     void Start()
     {
-        if (_gameManager == null) _gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+        
     }
 
     // Update is called once per frame
@@ -34,59 +22,22 @@ public class ChapterManager : MonoBehaviour
         
     }
 
-    private void ReadChapterData()
+    public Vector2 GetPlayerPos(int level, int playerType, bool isAtStart)
     {
-        System.IO.StreamReader reader = new System.IO.StreamReader(Application.dataPath + '/' + path);
-        string json = reader.ReadToEnd();
-        reader.Close();
-        _chapterData = JsonConvert.DeserializeObject<ChapterData>(json, _jsonSettings);
+        if (playerType == 0)
+        {
+            if (isAtStart) return _player0PosStart[level].position;
+            else return _player0PosEnd[level].position;
+        }
+        else
+        {
+            if (isAtStart) return _player1PosStart[level].position;
+            else return _player1PosEnd[level].position;
+        }
     }
 
-    private void WriteChapterData()
+    public Vector3 GetCameraPos(int level)
     {
-        string json = JsonConvert.SerializeObject(_chapterData, _jsonSettings);
-        System.IO.StreamWriter writer = new System.IO.StreamWriter(Application.dataPath + '/' + path);
-        writer.Write(json);
-        writer.Close();
+        return _cameraPos[level].position;
     }
-
-    /// <summary>
-    /// Get the camera position in the given level
-    /// </summary>
-    /// <param name="level"></param>
-    /// <returns></returns>
-    public Vector3 GetCameraPosInLevel(int level)
-    {
-        return _chapterData._cameraPosInLevel[level];
-    }
-
-    /// <summary>
-    /// Get the player start position in the given level and player type
-    /// </summary>
-    /// <param name="level"></param>
-    /// <param name="type"></param>
-    /// <returns></returns>
-    public Vector2 GetPlayerPosAtLevelStart(int level, int type)
-    {
-        return _chapterData._playerPosAtLevelStart[level][type];
-    }
-
-    /// <summary>
-    /// Get the player end position in the given level and player type
-    /// </summary>
-    /// <param name="level"></param>
-    /// <param name="type"></param>
-    /// <returns></returns>
-    public Vector2 GetPlayerPosAtLevelEnd(int level, int type)
-    {
-        return _chapterData._playerPosAtLevelEnd[level][type];
-    }
-}
-
-[System.Serializable]
-public class ChapterData
-{
-    public Vector3[] _cameraPosInLevel;
-    public Vector2[][] _playerPosAtLevelStart;
-    public Vector2[][] _playerPosAtLevelEnd;
 }

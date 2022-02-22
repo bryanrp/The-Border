@@ -16,30 +16,14 @@ public class GroundCheck : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        _player.CanJump = (_numberOfTrigger > 0);
+        
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (!collision.CompareTag("Checker"))
         {
-            /*
             if (collision.CompareTag("MovablePlatform"))
-            {
-                collision.GetComponentInParent<MovablePlatform>().AttachPlayer(_player);
-            }
-            else
-            {
-                _player.Attach(collision.gameObject);
-            }
-            */
-
-            
-            if (collision.CompareTag("Moving Platform"))
-            {
-                // _player.Attach(collision.gameObject);
-            }
-            else if (collision.CompareTag("MovablePlatform"))
             {
                 collision.GetComponentInParent<MovablePlatform>().AttachPlayer(_player);
                 _player.IsAttached = true;
@@ -52,24 +36,8 @@ public class GroundCheck : MonoBehaviour
     private void OnTriggerExit2D(Collider2D collision)
     {
         if (!collision.CompareTag("Checker"))
-        {
-            /*
+        {            
             if (collision.CompareTag("MovablePlatform"))
-            {
-                collision.GetComponentInParent<MovablePlatform>().AttachPlayer(null);
-            }
-            else
-            {
-                _player.Detach();
-            }
-            */
-
-            
-            if (collision.CompareTag("Moving Platform"))
-            {
-                // _player.Detach();
-            }
-            else if (collision.CompareTag("MovablePlatform"))
             {
                 collision.GetComponentInParent<MovablePlatform>().AttachPlayer(null);
                 _player.Switch();
@@ -80,13 +48,8 @@ public class GroundCheck : MonoBehaviour
         }
     }
 
-    /*
-    private void OnTriggerStay2D(Collider2D collision)
+    public bool CanPlayerJump()
     {
-        if (collision.CompareTag("MovablePlatform"))
-        {
-            _player.AddSpeedX(collision.GetComponentInParent<MovablePlatform>().GetSpeed().x);
-        }
+        return (_numberOfTrigger > 0);
     }
-    */
 }

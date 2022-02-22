@@ -4,22 +4,19 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    private static GameManager _gameManager;
-
     // Type and other player
-    private PlayerOther _secondaryPhysics;
+    private PlayerOther _playerOther;
     public int Type;
     private bool _active = true;
 
     // Movement
     private Rigidbody2D _rigidbody;
-    private float _jumpForce = 10;
-    private float _addSpeedX = 0;
-    public bool CanJump = false;
+    private GroundCheck _groundCheck;
+    private const float _jumpForce = 10;
     public bool IsAttached = false;
 
     // Arrow indicator
-    private GameObject _arrow;
+    [SerializeField] private GameObject _arrow;
     private float _arrowTranslateScale = 0.1f;
     private float _arrowPrevY = 0;
 
@@ -29,24 +26,22 @@ public class Player : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        if (_gameManager == null) _gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
-
         _rigidbody = GetComponent<Rigidbody2D>();
-        _arrow = transform.Find("Arrow").gameObject;
+        _groundCheck = GetComponentInChildren<GroundCheck>();
 
         if (Type == 1)
         {
-            _gameManager.MoveGameObjectToScene(gameObject, Type);
+            PhysicsManager.Instance.MoveGameObjectToScene(gameObject, Type);
         }
-        _secondaryPhysics = Instantiate(_playerOtherPrefab).GetComponent<PlayerOther>();
-        _secondaryPhysics._playerMain = this;
-        _gameManager.MoveGameObjectToScene(_secondaryPhysics.gameObject, 1 - Type);
+        _playerOther = Instantiate(_playerOtherPrefab).GetComponent<PlayerOther>();
+        _playerOther._playerMain = this;
+        PhysicsManager.Instance.MoveGameObjectToScene(_playerOther.gameObject, 1 - Type);
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (_gameManager.IsGamePlaying())
+        if (GameManager.Instance.IsGamePlaying())
         {
             Switch();
             
@@ -58,27 +53,25 @@ public class Player : MonoBehaviour
                 ProcessArrow();
 
                 // The following line is not using MovePosition because _secondaryPhysics._rigidbody is not simulated.
-                _secondaryPhysics._rigidbody.position = _rigidbody.position;
+                _playerOther._rigidbody.position = _rigidbody.position;
             }
             else
             {
-                _secondaryPhysics._rigidbody.MovePosition(_rigidbody.position);
+                _playerOther._rigidbody.MovePosition(_rigidbody.position);
             }
         }
     }
 
     private void ProcessMove()
     {
-        float horizontalSpeed = Input.GetAxis("Horizontal") * _horizontalSpeed + _addSpeedX;
+        float horizontalSpeed = Input.GetAxis("Horizontal") * _horizontalSpeed;
         float verticalSpeed = _rigidbody.velocity.y;
         _rigidbody.velocity = new Vector2(horizontalSpeed, verticalSpeed);
-        _addSpeedX = 0;
 
-        if (Input.GetKeyDown(KeyCode.Space) && CanJump)
+        if (Input.GetKeyDown(KeyCode.Space) && _groundCheck.CanPlayerJump())
         {
             _rigidbody.AddForce(new Vector2(0, _jumpForce), ForceMode2D.Impulse);
-            CanJump = false;
-            _gameManager.PlayJump();
+            GameManager.Instance.PlayJump();
         }
     }
 
@@ -92,7 +85,7 @@ public class Player : MonoBehaviour
 
     public void Switch()
     {
-        if ((_gameManager.GetActiveType() == Type) != _active)
+        if ((GameManager.Instance.GetActiveType() == Type) != _active)
         {
             _active = !_active;
             if (_active) Activate();
@@ -102,7 +95,7 @@ public class Player : MonoBehaviour
 
     private void Activate()
     {
-        _secondaryPhysics._rigidbody.simulated = false;
+        _playerOther._rigidbody.simulated = false;
         if (IsAttached)
         {
             SetSpeedY(_rigidbody.velocity.y * 0.1f);
@@ -111,7 +104,7 @@ public class Player : MonoBehaviour
 
     private void Deactivate()
     {
-        _secondaryPhysics._rigidbody.simulated = true;
+        _playerOther._rigidbody.simulated = true;
     }
 
     /// <summary>
@@ -147,16 +140,6 @@ public class Player : MonoBehaviour
     public void SetSpeedY(float y)
     {
         _rigidbody.velocity = new Vector2(_rigidbody.velocity.x, y);
-    }
-
-    /// <summary>
-    /// Add the rigidbody horizontal or x-velocity only on the next frame. Used for moving this player on top of a horizontally-moving platform.
-    /// </summary>
-    /// <param name="x"></param>
-    public void AddSpeedX(float x)
-    {
-        // Debug.Log("Speed added: " + x);
-        _addSpeedX = x;
     }
 
     public bool IsActive()

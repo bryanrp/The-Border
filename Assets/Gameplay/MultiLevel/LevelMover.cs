@@ -19,12 +19,12 @@ public class LevelMover : PhysicsObject
     // Update is called once per frame
     void Update()
     {
-        if (!IsDuplicate() && _gameManager.CurrentLevel() == _inLevel)
+        if (!IsDuplicate() && GameManager.Instance.CurrentLevel() == _inLevel)
         {
-            bool shouldWallClose = _numberOfTrigger < _requiredNumberOfTrigger;
-            if (_wall.gameObject.activeSelf != shouldWallClose)
+            bool shouldWallActive = _numberOfTrigger < _requiredNumberOfTrigger;
+            if (_wall.gameObject.activeSelf != shouldWallActive)
             {
-                _wall.SetActive(shouldWallClose);
+                _wall.SetActive(shouldWallActive);
             }
         }
     }
@@ -34,9 +34,9 @@ public class LevelMover : PhysicsObject
         if (collision.CompareTag("Player"))
         {
             AddNumberOfTrigger(1);
-            if (_gameManager.CurrentLevel() != _inLevel)
+            if (GameManager.Instance.CurrentLevel() != _inLevel)
             {
-                _gameManager.ChangeToLevel(_inLevel);
+                GameManager.Instance.ChangeToLevel(_inLevel);
             }
         }
     }

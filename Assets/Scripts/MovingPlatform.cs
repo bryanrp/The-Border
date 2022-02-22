@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class MovingPlatform : MonoBehaviour
 {
-    private static GameManager gameManager;
-
     [SerializeField] private Vector2[] path;
     [SerializeField] private int platformType;
 
@@ -22,8 +20,6 @@ public class MovingPlatform : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        if (gameManager == null) gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
-
         Vector3 start = new Vector3(path[0].x, path[0].y, 2);
         Vector3 end = new Vector3(path[1].x, path[1].y, 2);
         DrawLine(start, end, lineColor);
@@ -32,7 +28,7 @@ public class MovingPlatform : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        if (gameManager.GetActiveType() == platformType) Move();
+        if (GameManager.Instance.GetActiveType() == platformType) Move();
     }
 
     private void DrawLine(Vector3 start, Vector3 end, Color color)
@@ -42,8 +38,10 @@ public class MovingPlatform : MonoBehaviour
         lineObject.AddComponent<LineRenderer>();
         LineRenderer line = lineObject.GetComponent<LineRenderer>();
         line.material = new Material(lineShader);
-        line.SetColors(color, color);
-        line.SetWidth(lineWidth, lineWidth);
+        line.startColor = color;
+        line.endColor = color;
+        line.startWidth = lineWidth;
+        line.endWidth = lineWidth;
         line.SetPosition(0, start);
         line.SetPosition(1, end);
     }
@@ -98,7 +96,7 @@ public class MovingPlatform : MonoBehaviour
 
     public void Attach(Player player, int from)
     {
-        if (attachedPlayer == null && gameManager.GetActiveType() == platformType)
+        if (attachedPlayer == null && GameManager.Instance.GetActiveType() == platformType)
         {
             Debug.Log("MovingPlatform received a player");
             attachedPlayer = player;

@@ -26,15 +26,12 @@ public class PlayerCheck : MonoBehaviour
     {
         if (collision.CompareTag("MovablePlatform"))
         {
-            // Rigidbody2D collisionRb = collision.GetComponent<Rigidbody2D>();
-            // if (collisionRb == null) collisionRb = collision.GetComponentInParent<Rigidbody2D>();
-
-            Rigidbody2D collisionRb = collision.GetComponentInParent<Rigidbody2D>();
+            Rigidbody2D collisionRigidbody = collision.GetComponentInParent<Rigidbody2D>();
 
             if (_type < 2)
             {
                 // horizontal
-                float x = collisionRb.velocity.x;
+                float x = collisionRigidbody.velocity.x;
                 if (_type == 0) x = Mathf.Min(0, x);
                 else x = Mathf.Max(0, x);
                 if (x != 0)
@@ -44,10 +41,10 @@ public class PlayerCheck : MonoBehaviour
                     _reset = true;
                 }
             }
-            else if (_type == 2)
+            else
             {
-                // vertical
-                float y = collisionRb.velocity.y;
+                // up
+                float y = collisionRigidbody.velocity.y;
                 if (_type == 2) y = Mathf.Min(0, y);
                 else y = Mathf.Max(0, y);
                 if (y != 0)
@@ -56,10 +53,6 @@ public class PlayerCheck : MonoBehaviour
                     _resetSpeed = y;
                     _reset = true;
                 }
-            }
-            else
-            {
-
             }
         }
     }
@@ -70,10 +63,8 @@ public class PlayerCheck : MonoBehaviour
         {
             if (_reset)
             {
-                // if (_type < 2) _playerMain.SetSpeedX(_resetSpeed);
-                // else _playerMain.SetSpeedY(_resetSpeed);
                 if (_type < 2) _playerMain.SetSpeedX(_resetSpeed);
-                else if (_type == 2) _playerMain.SetSpeedY(_resetSpeed);
+                else _playerMain.SetSpeedY(_resetSpeed);
                 _resetSpeed = 0;
                 _reset = false;
             }

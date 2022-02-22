@@ -22,9 +22,9 @@ public class Enemy : PhysicsObject
     // Update is called once per frame
     void Update()
     {
-        if (_particleSystem != null && _particleSystem.isPaused != _gameManager.IsGamePause())
+        if (_particleSystem != null && _particleSystem.isPaused != GameManager.Instance.IsGamePause())
         {
-            if (_gameManager.IsGamePause()) _particleSystem.Pause();
+            if (GameManager.Instance.IsGamePause()) _particleSystem.Pause();
             else _particleSystem.Play();
         }
     }
@@ -40,7 +40,7 @@ public class Enemy : PhysicsObject
     {
         if (collision.gameObject.CompareTag("Player") && (collision.GetComponent<Player>().Type != _type))
         {
-            StartCoroutine(_gameManager.GameOver(collision.GetComponent<Player>()));
+            StartCoroutine(GameManager.Instance.GameOver(collision.GetComponent<Player>()));
         }
     }
 }

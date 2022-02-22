@@ -6,23 +6,19 @@ public class CameraManager : MonoBehaviour
 {
     private const float _smoothTime = 0.1f;
 
-    private static GameManager _gameManager;
-
     private Vector3 _target;
     private Vector2 _velocity = Vector2.zero;
 
     // Start is called before the first frame update
     void Start()
     {
-        if (_gameManager == null) _gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
-
-        _target = _gameManager.GetCameraPosInLevel();
+        _target = GameManager.Instance.GetCameraPosInLevel();
     }
 
     // Update is called once per frame
     void Update()
     {
-        _target = _gameManager.GetCameraPosInLevel();
+        _target = GameManager.Instance.GetCameraPosInLevel();
         transform.position = Vector2.SmoothDamp(transform.position, _target, ref _velocity, _smoothTime);
         transform.Translate(Vector3.back * 10);
     }

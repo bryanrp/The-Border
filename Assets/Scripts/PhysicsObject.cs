@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class PhysicsObject : MonoBehaviour
 {
-    protected static GameManager _gameManager;
     protected PhysicsObject _physicsPrimary;
     protected PhysicsObject _physicsSecondary;
     [SerializeField] protected int _physicsType = 0;
@@ -12,20 +11,26 @@ public class PhysicsObject : MonoBehaviour
     // Start is called before the first frame update
     protected void Start()
     {
-        if (_gameManager == null) _gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
-
         if (!IsDuplicate())
         {
             if (_physicsType == 1)
             {
                 transform.SetParent(null);
-                _gameManager.MoveGameObjectToScene(gameObject, 1);
+                PhysicsManager.Instance.MoveGameObjectToScene(gameObject, 1);
             }
 
             _physicsSecondary = Instantiate(gameObject).GetComponent<PhysicsObject>();
             _physicsSecondary.transform.position = transform.position;
             _physicsSecondary.SetDuplicate(this);
-            _gameManager.MoveGameObjectToScene(_physicsSecondary.gameObject, 1 - _physicsType);
+            PhysicsManager.Instance.MoveGameObjectToScene(_physicsSecondary.gameObject, 1 - _physicsType);
+        }
+        else
+        {
+            SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
+            if (spriteRenderer != null)
+            {
+                spriteRenderer.enabled = false;
+            }
         }
     }
 

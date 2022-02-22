@@ -5,17 +5,6 @@ using UnityEngine;
 public class MovablePlatform : PhysicsObject
 {
     /*
-        when active, disable dynamic rigidbody
-        let PlayerCheck and GroundCheck and PlayerInput control the movement
-        when passive, enable dynamic rigidbody (PROBLEM, player will fly off the screen because of the MovablePlaform's speed)
-        
-        disable dynamic rigidbody altogether
-        active works well
-        passive works? probably. lets try
-        
-        PROBLEM:
-        1) occured when MovablePlatform and Player is on different PhysicsScene
-        2) occured in condition (1) when 
         ACTIVE:
         horizontal: needs to use dynamic rigidbody
         below: needs to use dynamic rigidbody
@@ -42,7 +31,7 @@ public class MovablePlatform : PhysicsObject
         passive - passive: dynamic - stop (---) [DONE]
         active to passive - active: dynamic [DONE]
         active to passive - passive: dynamic [DONE]
-        passive to active - active: check (when switch player, reduce the newly activated player's speed)
+        passive to active - active: check (when switch player, reduce the newly activated player's speed) [DONE, but Player0 sometimes keeps its velocity for a frame]
         passive to active - passive: dynamic [DONE]
     */
 
@@ -84,7 +73,6 @@ public class MovablePlatform : PhysicsObject
                 _resetPrevPlayer = null;
             }
 
-            bool debug = false;
             if (_isMoving)
             {
 
@@ -113,9 +101,7 @@ public class MovablePlatform : PhysicsObject
                 {
                     Debug.Log("WOW");
                     _attachedPlayer.SetSpeedY(0);
-                    PhysicsManager.QueuePlayerToSetSpeedY(_attachedPlayer);
                     _resetPrevPlayer = _attachedPlayer;
-                    debug = true;
                 }
             }
 
@@ -128,7 +114,6 @@ public class MovablePlatform : PhysicsObject
             _prevPos = transform.position;
 
             _physicsSecondary.GetComponent<Rigidbody2D>().MovePosition(_rigidbody.position);
-            if (false && debug) Debug.Break();
         }
     }
 
@@ -145,7 +130,6 @@ public class MovablePlatform : PhysicsObject
         {
             Debug.Log("HAH");
             _attachedPlayer.SetSpeedY(0);
-            PhysicsManager.QueuePlayerToSetSpeedY(_attachedPlayer);
             StartCoroutine(ResetPlayerAtNextFixedUpdate(_attachedPlayer));
         }
     }
@@ -163,7 +147,6 @@ public class MovablePlatform : PhysicsObject
         {
             Debug.Log("HAH");
             _attachedPlayer.SetSpeedY(0);
-            PhysicsManager.QueuePlayerToSetSpeedY(_attachedPlayer);
             StartCoroutine(ResetPlayerAtNextFixedUpdate(_attachedPlayer));
         }
     }
@@ -180,7 +163,7 @@ public class MovablePlatform : PhysicsObject
         if (!IsDuplicate()) return _physicsPrimary.GetComponent<MovablePlatform>().GetSpeed();
         else if (_isMoving)
         {
-            float physicsSimulationTimeScale = (_physicsType == _gameManager.GetActiveType() ? 0.1f : 1f);
+            float physicsSimulationTimeScale = (_physicsType == GameManager.Instance.GetActiveType() ? 0.1f : 1f);
             if (_isActive)
             {
                 Debug.Log("Returned X speed: " + (_targetPosition.normalized.x * _moveToSpeed) + "; duplicate: " + IsDuplicate());

@@ -17,12 +17,12 @@ public class GameManager : MonoBehaviour
 
     private GameState _gameState;
 
+    public static GameManager Instance { get; private set; }
+
     private static SceneLoader _sceneLoader;
     private static SFXManager _sfxManager;
-    private static PhysicsManager _physicsManager;
     private static CameraManager _cameraManager;
     private static ChapterManager _chapterManager;
-    private static ChapterManagerAlt _chapterManagerAlt;
 
     public Player[] _players;
     private int _activeType = 0;
@@ -46,16 +46,27 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Awake()
     {
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+            return;
+        }
+
         // QualitySettings.vSyncCount = 0;
         // Application.targetFrameRate = 30;
         _gameState = GameState.Play;
 
+        AwakePhysicsManager();
+
         _sceneLoader = GetComponent<SceneLoader>();
         _sfxManager = GetComponent<SFXManager>();
-        _physicsManager = GameObject.Find("PhysicsManager").GetComponent<PhysicsManager>();
         _cameraManager = Camera.main.GetComponent<CameraManager>();
         _chapterManager = GetComponent<ChapterManager>();
-        _chapterManagerAlt = GetComponent<ChapterManagerAlt>();
 
         Player playerA = GameObject.Find("PlayerA").GetComponent<Player>();
         Player playerB = GameObject.Find("PlayerB").GetComponent<Player>();
@@ -73,8 +84,11 @@ public class GameManager : MonoBehaviour
         if (Cutscene) _cutsceneManager = GameObject.Find("Cutscene Manager").GetComponent<CutsceneManager>();
 
         _currentLevel = _startLevel;
+    }
 
-        _physicsManager.GameManagerAwake();
+    private void AwakePhysicsManager()
+    {
+        GetComponent<PhysicsManager>().GameManagerAwake();
     }
 
     // Update is called once per frame
@@ -127,31 +141,9 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// Get the player start position in the given level and player type
-    /// </summary>
-    /// <param name="level"></param>
-    /// <param name="type"></param>
-    /// <returns></returns>
-    private Vector2 GetPlayerPosAtLevelStart(int level, int type)
-    {
-        return _chapterManager.GetPlayerPosAtLevelStart(level, type);
-    }
-
-    /// <summary>
-    /// Get the player end position in the given level and player type
-    /// </summary>
-    /// <param name="level"></param>
-    /// <param name="type"></param>
-    /// <returns></returns>
-    private Vector2 GetPlayerPosAtLevelEnd(int level, int type)
-    {
-        return _chapterManager.GetPlayerPosAtLevelEnd(level, type);
-    }
-
     private Vector2 GetPlayerPos(int level, int playerType, bool isAtStart)
     {
-        return _chapterManagerAlt.GetPlayerPos(level, playerType, isAtStart);
+        return _chapterManager.GetPlayerPos(level, playerType, isAtStart);
     }
     
     /// <summary>
@@ -229,8 +221,8 @@ public class GameManager : MonoBehaviour
                 _players[i].GetComponent<Rigidbody2D>().velocity = Vector2.zero;
                 // if (_prevLevel < _currentLevel) _players[i].transform.position = _chapterManager.GetPlayerPosAtLevelStart(_currentLevel, i);
                 // else _players[i].transform.position = _chapterManager.GetPlayerPosAtLevelEnd(_currentLevel, i);
-                if (_prevLevel < _currentLevel) _players[i].transform.position = _chapterManagerAlt.GetPlayerPos(_currentLevel, i, true);
-                else _players[i].transform.position = _chapterManagerAlt.GetPlayerPos(_currentLevel, i, true);
+                if (_prevLevel < _currentLevel) _players[i].transform.position = _chapterManager.GetPlayerPos(_currentLevel, i, true);
+                else _players[i].transform.position = _chapterManager.GetPlayerPos(_currentLevel, i, true);
             }
 
             yield return new WaitForSeconds(1);
@@ -254,7 +246,7 @@ public class GameManager : MonoBehaviour
     {
         if (level < 0) level = _currentLevel;
         // return _chapterManager.GetCameraPosInLevel(level);
-        return _chapterManagerAlt.GetCameraPos(level);
+        return _chapterManager.GetCameraPos(level);
     }
 
     public bool IsGamePlaying()
@@ -295,16 +287,6 @@ public class GameManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Move the given gameObject to the given scene
-    /// </summary>
-    /// <param name="gameObject"></param>
-    /// <param name="type"></param>
-    public void MoveGameObjectToScene(GameObject gameObject, int type = 0)
-    {
-        _physicsManager.MoveGameObjectToScene(gameObject, type);
-    }
-
-    /// <summary>
     /// Change the currentLevel to the given level.
     /// </summary>
     /// <param name="level"></param>
@@ -316,7 +298,7 @@ public class GameManager : MonoBehaviour
             {
                 // _players[i].MovePosition(_playerPosAtLevelStart[level][i]);
                 // _players[i].transform.position = _chapterManager.GetPlayerPosAtLevelStart(level, i);
-                _players[i].transform.position = _chapterManagerAlt.GetPlayerPos(level, i, true);
+                _players[i].transform.position = _chapterManager.GetPlayerPos(level, i, true);
             }
         }
         else if (level < _currentLevel)
@@ -325,7 +307,7 @@ public class GameManager : MonoBehaviour
             {
                 // _players[i].MovePosition(_playerPosAtLevelEnd[level][i]);
                 // _players[i].transform.position = _chapterManager.GetPlayerPosAtLevelEnd(level, i);
-                _players[i].transform.position = _chapterManagerAlt.GetPlayerPos(level, i, false);
+                _players[i].transform.position = _chapterManager.GetPlayerPos(level, i, false);
             }
         }
 

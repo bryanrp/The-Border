@@ -6,7 +6,6 @@ namespace Assets.Scripts
 {
     public class Rope : MonoBehaviour
     {
-        private static GameManager _gameManager;
         private List<HingeJoint2D> _rope;
         [SerializeField] private GameObject _ropeSegment;
         private float _ropeSegmentLength;
@@ -14,14 +13,13 @@ namespace Assets.Scripts
         // Start is called before the first frame update
         void Start()
         {
-            _gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
             _ropeSegmentLength = _ropeSegment.transform.localScale.x;
         }
 
         // Update is called once per frame
         void Update()
         {
-            if (_gameManager.GetActiveType() != -1)
+            if (GameManager.Instance.GetActiveType() != -1)
             {
                 if (Input.GetKeyDown(KeyCode.J))
                 {
@@ -33,9 +31,9 @@ namespace Assets.Scripts
 
         private void CreateRope()
         {
-            int activeType = _gameManager.GetActiveType();
-            Player playerActive = _gameManager.GetPlayer(activeType);
-            Player playerInactive = _gameManager.GetPlayer(1 - activeType);
+            int activeType = GameManager.Instance.GetActiveType();
+            Player playerActive = GameManager.Instance.GetPlayer(activeType);
+            Player playerInactive = GameManager.Instance.GetPlayer(1 - activeType);
 
             Vector2 difference = playerInactive.transform.position - playerActive.transform.position;
             Vector2 direction = difference.normalized;
@@ -89,9 +87,9 @@ namespace Assets.Scripts
             }
             _rope = null;
 
-            int activeType = _gameManager.GetActiveType();
-            HingeJoint2D playerActiveHinge = _gameManager.GetPlayer(activeType).GetComponent<HingeJoint2D>();
-            HingeJoint2D playerInactiveHinge = _gameManager.GetPlayer(1 - activeType).GetComponent<HingeJoint2D>();
+            int activeType = GameManager.Instance.GetActiveType();
+            HingeJoint2D playerActiveHinge = GameManager.Instance.GetPlayer(activeType).GetComponent<HingeJoint2D>();
+            HingeJoint2D playerInactiveHinge = GameManager.Instance.GetPlayer(1 - activeType).GetComponent<HingeJoint2D>();
             playerActiveHinge.connectedBody = null;
             playerInactiveHinge.connectedBody = null;
             playerActiveHinge.enabled = false;

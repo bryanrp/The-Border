@@ -512,5 +512,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Type: 0
   CanJump: 0
+  IsAttached: 0
+  _arrow: {fileID: 33881384251495161}
   _playerOtherPrefab: {fileID: 1039883480067710924, guid: e0d29cbded1cfb945a38c3a3a584a975, type: 3}
   _horizontalSpeed: 5
