@@ -107,6 +107,11 @@ public class Player : MonoBehaviour
         _playerOther._rigidbody.simulated = true;
     }
 
+    public void PlayDeathParticle()
+    {
+        GetComponentInChildren<ParticleSystem>().Play();
+    }
+
     /// <summary>
     /// Set gameObjectParent.transform as the parent of this transform.
     /// </summary>

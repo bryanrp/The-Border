@@ -33,7 +33,6 @@ public class GameManager : MonoBehaviour
     private GameObject _levelText;
     private GameObject _mapText;
 
-    [SerializeField] private ParticleSystem _playerDeathParticle;
     private float _playerDeadAnimationTime = 0.5f;
 
     private CutsceneManager _cutsceneManager;
@@ -207,7 +206,7 @@ public class GameManager : MonoBehaviour
 
             _activeType = player.Type;
             StartCoroutine(_cameraManager.ShakeCamera());
-            Instantiate(_playerDeathParticle, player.transform);
+            player.PlayDeathParticle();
             PlayLose();
 
             yield return new WaitForSeconds(_playerDeadAnimationTime);
@@ -219,8 +218,6 @@ public class GameManager : MonoBehaviour
             for (int i = 0; i < 2; i++)
             {
                 _players[i].GetComponent<Rigidbody2D>().velocity = Vector2.zero;
-                // if (_prevLevel < _currentLevel) _players[i].transform.position = _chapterManager.GetPlayerPosAtLevelStart(_currentLevel, i);
-                // else _players[i].transform.position = _chapterManager.GetPlayerPosAtLevelEnd(_currentLevel, i);
                 if (_prevLevel < _currentLevel) _players[i].transform.position = _chapterManager.GetPlayerPos(_currentLevel, i, true);
                 else _players[i].transform.position = _chapterManager.GetPlayerPos(_currentLevel, i, true);
             }

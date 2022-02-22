@@ -36,6 +36,8 @@ public class PhysicsManager : MonoBehaviour
 
     void FixedUpdate()
     {
+        if (GameManager.Instance.IsGameOver()) return;
+
         int activeType = GameManager.Instance.GetActiveType();
 
         if (activeType == 0)
