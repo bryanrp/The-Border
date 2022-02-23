@@ -40,7 +40,8 @@ public class GroundCheck : MonoBehaviour
             if (collision.CompareTag("MovablePlatform"))
             {
                 collision.GetComponentInParent<MovablePlatform>().AttachPlayer(null);
-                _player.Switch();
+                // Debug.Break();
+                // _player.Switch();
                 _player.IsAttached = false;
             }
             

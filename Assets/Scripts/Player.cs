@@ -118,23 +118,6 @@ public class Player : MonoBehaviour
     }
 
     /// <summary>
-    /// Set gameObjectParent.transform as the parent of this transform.
-    /// </summary>
-    /// <param name="gameObjectParent"></param>
-    public void Attach(GameObject gameObjectParent)
-    {
-        transform.parent = gameObjectParent.transform;
-    }
-
-    /// <summary>
-    /// Set this transform to be in global space or no parent.
-    /// </summary>
-    public void Detach()
-    {
-        transform.parent = null;
-    }
-
-    /// <summary>
     /// Set the rigidbody horizontal or x-velocity.
     /// </summary>
     /// <param name="x"></param>

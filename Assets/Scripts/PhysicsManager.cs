@@ -64,7 +64,6 @@ public class PhysicsManager : MonoBehaviour
                     if (activeType != i) physicsSceneTimeScale = _physicsSlowedTimeScale;
                     if (GameManager.Instance.IsGameRestart()) physicsSceneTimeScale = 10;
 
-                    // commenting the next line will stop the physics in scene[i]
                     _physicsScenes[i].Simulate(Time.fixedDeltaTime * physicsSceneTimeScale);
                 }
             }

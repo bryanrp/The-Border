@@ -107,6 +107,10 @@ public class GameManager : MonoBehaviour
     private void SwitchPlayer()
     {
         _activeType = 1 - _activeType;
+        for (int i = 0; i < 2; i++)
+        {
+            _players[i].Switch();
+        }
         _sfxManager.PlaySwitch();
     }
 
