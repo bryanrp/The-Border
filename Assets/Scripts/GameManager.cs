@@ -143,11 +143,6 @@ public class GameManager : MonoBehaviour
             _mapText.SetActive(false);
         }
     }
-
-    private Vector2 GetPlayerPos(int level, int playerType, bool isAtStart)
-    {
-        return _chapterManager.GetPlayerPos(level, playerType, isAtStart);
-    }
     
     /// <summary>
     /// Toggle game to pause or not.
@@ -208,7 +203,6 @@ public class GameManager : MonoBehaviour
         {
             _gameState = GameState.Over;
 
-            _activeType = player.Type;
             StartCoroutine(_cameraManager.ShakeCamera());
             player.PlayDeathParticle();
             PlayLose();
@@ -223,7 +217,7 @@ public class GameManager : MonoBehaviour
             {
                 _players[i].GetComponent<Rigidbody2D>().velocity = Vector2.zero;
                 if (_prevLevel < _currentLevel) _players[i].transform.position = _chapterManager.GetPlayerPos(_currentLevel, i, true);
-                else _players[i].transform.position = _chapterManager.GetPlayerPos(_currentLevel, i, true);
+                else _players[i].transform.position = _chapterManager.GetPlayerPos(_currentLevel, i, false);
             }
 
             yield return new WaitForSeconds(1);

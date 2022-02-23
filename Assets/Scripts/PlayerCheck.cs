@@ -19,7 +19,10 @@ public class PlayerCheck : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if (GameManager.Instance.IsGameOver())
+        {
+            _reset = false;
+        }
     }
 
     private void OnTriggerStay2D(Collider2D collision)

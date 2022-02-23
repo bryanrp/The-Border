@@ -99,7 +99,6 @@ public class MovablePlatform : PhysicsObject
 
                 if (!_isMoving && _moveVector.y != 0 && _attachedPlayer != null)
                 {
-                    Debug.Log("WOW");
                     _attachedPlayer.SetSpeedY(0);
                     _resetPrevPlayer = _attachedPlayer;
                 }
@@ -128,7 +127,6 @@ public class MovablePlatform : PhysicsObject
 
         if (_attachedPlayer != null && _rigidbody.velocity.y < 0)
         {
-            Debug.Log("HAH");
             _attachedPlayer.SetSpeedY(0);
             StartCoroutine(ResetPlayerAtNextFixedUpdate(_attachedPlayer));
         }
@@ -145,7 +143,6 @@ public class MovablePlatform : PhysicsObject
 
         if (_attachedPlayer != null && _rigidbody.velocity.y < 0)
         {
-            Debug.Log("HAH");
             _attachedPlayer.SetSpeedY(0);
             StartCoroutine(ResetPlayerAtNextFixedUpdate(_attachedPlayer));
         }

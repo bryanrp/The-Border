@@ -33,6 +33,7 @@ public class Player : MonoBehaviour
 
         if (Type == 1)
         {
+            _active = false;
             PhysicsManager.Instance.MoveGameObjectToScene(gameObject, Type);
         }
         _playerOther = Instantiate(_playerOtherPrefab).GetComponent<PlayerOther>();
@@ -45,8 +46,6 @@ public class Player : MonoBehaviour
     {
         if (GameManager.Instance.IsGamePlaying())
         {
-            Switch();
-            
             _arrow.SetActive(_active);
 
             if (_active)
@@ -54,7 +53,7 @@ public class Player : MonoBehaviour
                 ProcessMove();
                 ProcessArrow();
 
-                // The following line is not using MovePosition because _secondaryPhysics._rigidbody is not simulated.
+                // The following line is not using MovePosition because _playerOther._rigidbody is not simulated.
                 _playerOther._rigidbody.position = _rigidbody.position;
             }
             else
