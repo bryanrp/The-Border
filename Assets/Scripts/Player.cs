@@ -13,6 +13,8 @@ public class Player : MonoBehaviour
     private Rigidbody2D _rigidbody;
     private GroundCheck _groundCheck;
     private const float _jumpForce = 10;
+    private const float _jumpMaxDiffTime = 0.07f; // when the player about to touch the ground and press space, sometimes the jump does not register. this is the max diff time allowed to register the jump
+    private float _jumpLastTime = -1;
     public bool IsAttached = false;
 
     // Arrow indicator
@@ -68,8 +70,11 @@ public class Player : MonoBehaviour
         float verticalSpeed = _rigidbody.velocity.y;
         _rigidbody.velocity = new Vector2(horizontalSpeed, verticalSpeed);
 
-        if (Input.GetKeyDown(KeyCode.Space) && _groundCheck.CanPlayerJump())
+        if (Input.GetKeyDown(KeyCode.Space)) _jumpLastTime = Time.time;
+        if (Time.time - _jumpLastTime < _jumpMaxDiffTime && _groundCheck.CanPlayerJump())
         {
+            _jumpLastTime = -1;
+            SetSpeedY(Mathf.Max(0, _rigidbody.velocity.y));
             _rigidbody.AddForce(new Vector2(0, _jumpForce), ForceMode2D.Impulse);
             GameManager.Instance.PlayJump();
         }
