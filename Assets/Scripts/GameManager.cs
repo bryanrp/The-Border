@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Rendering;
 using UnityEditor;
 
 public class GameManager : MonoBehaviour
@@ -23,6 +24,7 @@ public class GameManager : MonoBehaviour
     private static SFXManager _sfxManager;
     private static CameraManager _cameraManager;
     private static ChapterManager _chapterManager;
+    private static UnityEngine.Rendering.Universal.Vignette _volumeProfileVignette;
 
     public Player[] _players;
     private int _activeType = 0;
@@ -66,6 +68,7 @@ public class GameManager : MonoBehaviour
         _sfxManager = GetComponent<SFXManager>();
         _cameraManager = Camera.main.GetComponent<CameraManager>();
         _chapterManager = GetComponent<ChapterManager>();
+        GameObject.Find("PostProcessing")?.GetComponent<Volume>()?.profile.TryGet(out _volumeProfileVignette);
 
         Player playerA = GameObject.Find("PlayerA").GetComponent<Player>();
         Player playerB = GameObject.Find("PlayerB").GetComponent<Player>();
@@ -111,7 +114,23 @@ public class GameManager : MonoBehaviour
         {
             _players[i].Switch();
         }
+        
         _sfxManager.PlaySwitch();
+
+        if (_activeType == 0)
+        {
+            if (_volumeProfileVignette != null)
+            {
+                _volumeProfileVignette.color.value = new Color32(255, 85, 102, 255);
+            }
+        }
+        else
+        {
+            if (_volumeProfileVignette != null)
+            {
+                _volumeProfileVignette.color.value = new Color32(101, 86, 255, 255);
+            }
+        }
     }
 
     private void GameDone()

@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 5367046851438313059}
   m_Layer: 0
   m_Name: MovablePlatformButton_Blue
-  m_TagString: Untagged
+  m_TagString: Checker
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -122,5 +122,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ecdd1fec5a319f54f9eb8679c0f977c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _physicsType: 0
   _movablePlatform: {fileID: 0}
   _spriteActivated: {fileID: 21300000, guid: 30fc1089e16e29b41b3bd522e04aacef, type: 3}

@@ -16973,7 +16973,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5204814027906058070, guid: 67dc84a29bc528b45aa7fcbe5a4a0652, type: 3}
       propertyPath: _startLevel
-      value: 7
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5204814027906058070, guid: 67dc84a29bc528b45aa7fcbe5a4a0652, type: 3}
       propertyPath: _playerDeathParticle
