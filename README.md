@@ -4,7 +4,7 @@ Yes, README should not be used for Todo.
 
 ## Todo
 
-- [ ] Moving still does not feel good
+- [ ] Fix MovablePlatform that controlled by two or more buttons
 - [ ] PressurePlate but it covers an area
 
 ## Chapter 1 Level
