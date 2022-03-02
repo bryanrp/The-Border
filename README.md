@@ -4,8 +4,8 @@ Yes, README should not be used for Todo.
 
 ## Todo
 
-- [ ] Fix MovablePlatform that controlled by two or more buttons
 - [ ] PressurePlate but it covers an area
+- [ ] When both players is on top of platforms from one MovablePlatform will make one of the player "unattached" to the platform
 
 ## Chapter 1 Level
 

@@ -41,6 +41,7 @@ public class MovablePlatform : PhysicsObject
     private Vector2 _targetPosition;
     private bool _isActive = false;
     private bool _isMoving = false;
+    private int _numberOfActivate = 0;
 
     private Vector2 _prevPos;
     private Player _attachedPlayer;
@@ -121,14 +122,17 @@ public class MovablePlatform : PhysicsObject
     /// </summary>
     public void Activate()
     {
-        _isActive = true;
-        _isMoving = true;
-        _rigidbody.velocity = _moveVector.normalized * _moveToSpeed;
-
-        if (_attachedPlayer != null && _rigidbody.velocity.y < 0)
+        if (_numberOfActivate++ == 0)
         {
-            _attachedPlayer.SetSpeedY(0);
-            StartCoroutine(ResetPlayerAtNextFixedUpdate(_attachedPlayer));
+            _isActive = true;
+            _isMoving = true;
+            _rigidbody.velocity = _moveVector.normalized * _moveToSpeed;
+
+            if (_attachedPlayer != null && _rigidbody.velocity.y < 0)
+            {
+                _attachedPlayer.SetSpeedY(0);
+                StartCoroutine(ResetPlayerAtNextFixedUpdate(_attachedPlayer));
+            }
         }
     }
 
@@ -137,14 +141,17 @@ public class MovablePlatform : PhysicsObject
     /// </summary>
     public void Deactivate()
     {
-        _isActive = false;
-        _isMoving = true;
-        _rigidbody.velocity = -_moveVector.normalized * _moveBackSpeed;
-
-        if (_attachedPlayer != null && _rigidbody.velocity.y < 0)
+        if (--_numberOfActivate == 0)
         {
-            _attachedPlayer.SetSpeedY(0);
-            StartCoroutine(ResetPlayerAtNextFixedUpdate(_attachedPlayer));
+            _isActive = false;
+            _isMoving = true;
+            _rigidbody.velocity = -_moveVector.normalized * _moveBackSpeed;
+
+            if (_attachedPlayer != null && _rigidbody.velocity.y < 0)
+            {
+                _attachedPlayer.SetSpeedY(0);
+                StartCoroutine(ResetPlayerAtNextFixedUpdate(_attachedPlayer));
+            }
         }
     }
 

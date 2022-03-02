@@ -234,12 +234,17 @@ public class GameManager : MonoBehaviour
             _gameState = GameState.Restart;
             for (int i = 0; i < 2; i++)
             {
-                _players[i].GetComponent<Rigidbody2D>().velocity = Vector2.zero;
+                _players[i].GetComponent<Rigidbody2D>().simulated = false;
                 if (_prevLevel < _currentLevel) _players[i].transform.position = _chapterManager.GetPlayerPos(_currentLevel, i, true);
                 else _players[i].transform.position = _chapterManager.GetPlayerPos(_currentLevel, i, false);
             }
 
             yield return new WaitForSeconds(1);
+            for (int i = 0; i < 2; i++)
+            {
+                _players[i].GetComponent<Rigidbody2D>().simulated = true;
+                _players[i].GetComponent<Rigidbody2D>().velocity = Vector2.zero;
+            }
             _gameState = GameState.Play;
         }
     }
