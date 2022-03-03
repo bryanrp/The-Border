@@ -20,9 +20,11 @@ public class GameManager : MonoBehaviour
 
     public static GameManager Instance { get; private set; }
 
+    private static CameraManager _cameraManager;
+    private bool _isCameraMovable = true;
+
     private static SceneLoader _sceneLoader;
     private static SFXManager _sfxManager;
-    private static CameraManager _cameraManager;
     private static ChapterManager _chapterManager;
     private static UnityEngine.Rendering.Universal.Vignette _volumeProfileVignette;
 
@@ -267,6 +269,13 @@ public class GameManager : MonoBehaviour
         // return _chapterManager.GetCameraPosInLevel(level);
         return _chapterManager.GetCameraPos(level);
     }
+
+    public bool IsCameraMovable()
+    {
+        return _isCameraMovable;
+    }
+
+
 
     public bool IsGamePlaying()
     {
