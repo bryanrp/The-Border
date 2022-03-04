@@ -104,6 +104,7 @@ public class Player : MonoBehaviour
         {
             SetSpeedY(_rigidbody.velocity.y * 0.1f);
         }
+        ProcessMove(); // for MovablePlatform: passive to active - active: dynamic v (cause when active, horizontal speed is controlled by input)
     }
 
     private void Deactivate()

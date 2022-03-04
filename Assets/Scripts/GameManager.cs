@@ -21,7 +21,7 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance { get; private set; }
 
     private static CameraManager _cameraManager;
-    private bool _isCameraMovable = true;
+    private bool _isCameraMovable = false;
 
     private static SceneLoader _sceneLoader;
     private static SFXManager _sfxManager;
@@ -234,6 +234,7 @@ public class GameManager : MonoBehaviour
 
             yield return new WaitForSeconds(0.35f);
             _gameState = GameState.Restart;
+            _isCameraMovable = false;
             for (int i = 0; i < 2; i++)
             {
                 _players[i].GetComponent<Rigidbody2D>().simulated = false;
@@ -242,6 +243,7 @@ public class GameManager : MonoBehaviour
             }
 
             yield return new WaitForSeconds(1);
+            _isCameraMovable = false;
             for (int i = 0; i < 2; i++)
             {
                 _players[i].GetComponent<Rigidbody2D>().simulated = true;

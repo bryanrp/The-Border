@@ -5,7 +5,7 @@ Yes, README should not be used for Todo.
 ## Todo
 
 - [ ] PressurePlate but it covers an area
-- [ ] When both players is on top of platforms from one MovablePlatform will make one of the player "unattached" to the platform
+- [ ] CrushChecker should not be continuous, as a Player that moves fast (on top of a MovablePlatform) and hits a wall will be "crushed"
 
 ## Chapter 1 Level
 
