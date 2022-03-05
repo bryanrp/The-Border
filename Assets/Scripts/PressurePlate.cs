@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class PressurePlate : PhysicsObject
 {
-    private SpriteRenderer _spriteRenderer;
+    protected SpriteRenderer _spriteRenderer;
     private Sprite _spriteDeactivated;
 
-    private int _numberOfActivatingPlayers = 0;
-    private int _numberOfActivatingPlayersPrev = 0;
+    protected int _numberOfActivatingPlayers = 0;
+    protected int _numberOfActivatingPlayersPrev = 0;
 
-    [SerializeField] private MovablePlatform _movablePlatform;
+    [SerializeField] protected MovablePlatform _movablePlatform;
     [SerializeField] private Sprite _spriteActivated;
 
     // Start is called before the first frame update
@@ -23,7 +23,7 @@ public class PressurePlate : PhysicsObject
     }
 
     // Update is called once per frame
-    void Update()
+    protected void Update()
     {
         if (!IsDuplicate() && (GameManager.Instance.IsGamePlaying() || GameManager.Instance.IsGameRestart()))
         {
@@ -32,12 +32,12 @@ public class PressurePlate : PhysicsObject
                 if (_numberOfActivatingPlayers == 0)
                 {
                     _movablePlatform.Deactivate();
-                    _spriteRenderer.sprite = _spriteDeactivated;
+                    Deactivate();
                 }
                 else
                 {
                     _movablePlatform.Activate();
-                    _spriteRenderer.sprite = _spriteActivated;
+                    Activate();
                 }
             }
             _numberOfActivatingPlayersPrev = _numberOfActivatingPlayers;
@@ -58,6 +58,16 @@ public class PressurePlate : PhysicsObject
         {
             AddNumberOfActivatingPlayers(-1);
         }
+    }
+
+    protected virtual void Activate()
+    {
+        _spriteRenderer.sprite = _spriteActivated;
+    }
+
+    protected virtual void Deactivate()
+    {
+        _spriteRenderer.sprite = _spriteDeactivated;
     }
 
     public void AddNumberOfActivatingPlayers(int delta)
