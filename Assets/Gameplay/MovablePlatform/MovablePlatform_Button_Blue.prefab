@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 1050871465954005698}
   - component: {fileID: 5367046851438313059}
   m_Layer: 0
-  m_Name: MovablePlatformButton_Blue
+  m_Name: MovablePlatform_Button_Blue
   m_TagString: Checker
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

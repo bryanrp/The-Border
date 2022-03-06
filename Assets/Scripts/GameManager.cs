@@ -21,7 +21,7 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance { get; private set; }
 
     private static CameraManager _cameraManager;
-    private const bool _isLevelCameraMovable = true;
+    private const bool _isLevelCameraMovable = false;
     private bool _isCameraMovable = _isLevelCameraMovable;
 
     private static SceneLoader _sceneLoader;

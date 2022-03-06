@@ -1,31 +1,31 @@
 fileFormatVersion: 2
-guid: 0f0a80d8704f5e3429bebb0d6629fd72
+guid: f69c19d453709904b9d545f323b15ee7
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 144968804978992472
-    second: T_ButtonArea_Blue_Inactive_0
+      213: 204715428078044743
+    second: T_ButtonArea_Red_Inactive_0
   - first:
-      213: 6380895378426066443
-    second: T_ButtonArea_Blue_Inactive_1
+      213: -6325315954020079539
+    second: T_ButtonArea_Red_Inactive_1
   - first:
-      213: -5205074458086273646
-    second: T_ButtonArea_Blue_Inactive_2
+      213: -7448362083311838746
+    second: T_ButtonArea_Red_Inactive_2
   - first:
-      213: 6368086564849372557
-    second: T_ButtonArea_Blue_Inactive_3
+      213: 3411178758111554216
+    second: T_ButtonArea_Red_Inactive_3
   - first:
-      213: -8751834624322735778
-    second: T_ButtonArea_Blue_Inactive_4
+      213: -8176943736845298365
+    second: T_ButtonArea_Red_Inactive_4
   - first:
-      213: 765709791063838167
-    second: T_ButtonArea_Blue_Inactive_5
+      213: -2810591117195865284
+    second: T_ButtonArea_Red_Inactive_5
   - first:
-      213: -5552564174151998472
-    second: T_ButtonArea_Blue_Inactive_6
+      213: -2901699010119615088
+    second: T_ButtonArea_Red_Inactive_6
   - first:
-      213: 2177332473316651563
-    second: T_ButtonArea_Blue_Inactive_7
+      213: 7869657408767432282
+    second: T_ButtonArea_Red_Inactive_7
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -115,7 +115,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: T_ButtonArea_Blue_Inactive_0
+      name: T_ButtonArea_Red_Inactive_0
       rect:
         serializedVersion: 2
         x: 0
@@ -129,14 +129,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 855294c2c58030200800000000000000
-      internalID: 144968804978992472
+      spriteID: 74642a2e89b47d200800000000000000
+      internalID: 204715428078044743
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: T_ButtonArea_Blue_Inactive_1
+      name: T_ButtonArea_Red_Inactive_1
       rect:
         serializedVersion: 2
         x: 48
@@ -150,14 +150,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b06740c0a8e7d8850800000000000000
-      internalID: 6380895378426066443
+      spriteID: d48a58c17a6f738a0800000000000000
+      internalID: -6325315954020079539
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: T_ButtonArea_Blue_Inactive_2
+      name: T_ButtonArea_Red_Inactive_2
       rect:
         serializedVersion: 2
         x: 96
@@ -171,14 +171,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 29d0f48ab5cd3c7b0800000000000000
-      internalID: -5205074458086273646
+      spriteID: 6e995b9f52a12a890800000000000000
+      internalID: -7448362083311838746
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: T_ButtonArea_Blue_Inactive_3
+      name: T_ButtonArea_Red_Inactive_3
       rect:
         serializedVersion: 2
         x: 144
@@ -192,14 +192,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: d8dc8ccbdfcff5850800000000000000
-      internalID: 6368086564849372557
+      spriteID: 8aae89ed101f65f20800000000000000
+      internalID: 3411178758111554216
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: T_ButtonArea_Blue_Inactive_4
+      name: T_ButtonArea_Red_Inactive_4
       rect:
         serializedVersion: 2
         x: 192
@@ -213,14 +213,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: e51774447cc3b8680800000000000000
-      internalID: -8751834624322735778
+      spriteID: 3451bf0aef8a58e80800000000000000
+      internalID: -8176943736845298365
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: T_ButtonArea_Blue_Inactive_5
+      name: T_ButtonArea_Red_Inactive_5
       rect:
         serializedVersion: 2
         x: 240
@@ -234,14 +234,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 7dd06618ff850aa00800000000000000
-      internalID: 765709791063838167
+      spriteID: c331ca22546cef8d0800000000000000
+      internalID: -2810591117195865284
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: T_ButtonArea_Blue_Inactive_6
+      name: T_ButtonArea_Red_Inactive_6
       rect:
         serializedVersion: 2
         x: 288
@@ -255,14 +255,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 8f32c176d4451f2b0800000000000000
-      internalID: -5552564174151998472
+      spriteID: 09db7b8cf181bb7d0800000000000000
+      internalID: -2901699010119615088
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: T_ButtonArea_Blue_Inactive_7
+      name: T_ButtonArea_Red_Inactive_7
       rect:
         serializedVersion: 2
         x: 336
@@ -276,8 +276,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b2236f53950773e10800000000000000
-      internalID: 2177332473316651563
+      spriteID: a569a91d7b3a63d60800000000000000
+      internalID: 7869657408767432282
       vertices: []
       indices: 
       edges: []
