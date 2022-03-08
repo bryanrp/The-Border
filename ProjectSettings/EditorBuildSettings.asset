@@ -9,42 +9,6 @@ EditorBuildSettings:
     path: Assets/~GameJam/Levels/Main Menu.unity
     guid: c250d66e80af56a4f9c90d2e88c87107
   - enabled: 1
-    path: Assets/~GameJam/Levels/Level1.unity
-    guid: 6b8aa38dd3fea314a84a80bd47af2b13
-  - enabled: 1
-    path: Assets/~GameJam/Levels/Level2a.unity
-    guid: a33a12fd069b29e46a0e9b5f876edd3b
-  - enabled: 1
-    path: Assets/~GameJam/Levels/Level3.unity
-    guid: 173947ea8a1642540a5069fd427049cc
-  - enabled: 1
-    path: Assets/~GameJam/Levels/Level4.unity
-    guid: 4e635c1c59b0a654b8e0f1b4596d5596
-  - enabled: 1
-    path: Assets/~GameJam/Levels/Level5.unity
-    guid: 343f28cf56e043b45acc335c92c4bc4d
-  - enabled: 1
-    path: Assets/~GameJam/Levels/Level7.unity
-    guid: 68c4f41e9df5f004bbf70822b51ff3cc
-  - enabled: 1
-    path: Assets/~GameJam/Levels/Level8.unity
-    guid: 4c3043901797c1744b8b381cc3a6c4cf
-  - enabled: 1
-    path: Assets/~GameJam/Levels/Level9.unity
-    guid: 9da97f3827deb6b47ad23e96dca1ff6c
-  - enabled: 1
-    path: Assets/~GameJam/Levels/Level6.unity
-    guid: de0207e8a6f71424ea074ca085f11bfd
-  - enabled: 1
-    path: Assets/~GameJam/Levels/Level10.unity
-    guid: c03f14e7dc9e4fc4485669160209bf5b
-  - enabled: 1
-    path: Assets/~GameJam/Levels/End.unity
-    guid: c999d79f2378bf04099eea471163bfc0
-  - enabled: 0
-    path: Assets/~GameJam/Levels/SampleScene.unity
-    guid: 2cda990e2423bbf4892e6590ba056729
-  - enabled: 0
-    path: Assets/~GameJam/Levels/Prototype 1.unity
-    guid: 8ad93a4ab989dfc4f89253cbc44490d6
+    path: Assets/Scenes/Chapter 1.unity
+    guid: a401f814118c80946a89166e7da579aa
   m_configObjects: {}

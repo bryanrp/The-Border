@@ -106,7 +106,7 @@ public class GameManager : MonoBehaviour
         }
         if (_mapText != null && _gameState == GameState.Play && !Cutscene && Input.GetKeyDown(KeyCode.LeftShift)) ToggleGameMap();
         if (_gameState == GameState.Play && Input.GetKeyDown(KeyCode.S)) SwitchPlayer();
-        if (_mapText != null && _gameState != GameState.Over && Input.GetKeyDown(KeyCode.R)) RestartChapter();
+        if (_mapText != null && (IsGamePlaying() || IsGamePause()) && Input.GetKeyDown(KeyCode.R)) StartCoroutine(RestartLevel());
     }
 
     private void SwitchPlayer()
@@ -177,7 +177,7 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            _gameState = GameState.Pause;
+            _gameState = GameState.Play;
             _pauseMenu.SetActive(false);
         }
         PlayPause();
@@ -186,19 +186,44 @@ public class GameManager : MonoBehaviour
     /// <summary>
     /// Restart the level.
     /// </summary>
-    public void RestartChapter()
+    private IEnumerator RestartLevel()
     {
-        if (_gameState == GameState.Play)
+        _gameState = GameState.Over;
+        StartCoroutine(_sceneLoader.RunAnimation(1));
+        yield return new WaitForSeconds(0.35f);
+
+        _gameState = GameState.Restart;
+        _isCameraMovable = false;
+        for (int i = 0; i < 2; i++)
         {
-            _gameState = GameState.Over;
-            _sceneLoader.RestartScene();
+            _players[i].GetComponent<Rigidbody2D>().simulated = false;
+            if (_prevLevel < _currentLevel) _players[i].transform.position = _chapterManager.GetPlayerPos(_currentLevel, i, true);
+            else _players[i].transform.position = _chapterManager.GetPlayerPos(_currentLevel, i, false);
         }
+        yield return new WaitForSeconds(1);
+
+        _isCameraMovable = _chapterManager.IsCameraMovable(_currentLevel);
+        for (int i = 0; i < 2; i++)
+        {
+            _players[i].GetComponent<Rigidbody2D>().simulated = true;
+            _players[i].GetComponent<Rigidbody2D>().velocity = Vector2.zero;
+        }
+        _gameState = GameState.Play;
     }
 
     /// <summary>
-    /// Back to main menu.
+    /// Restart level. Called by button.
     /// </summary>
-    public void BackToMain()
+    public void ButtonRestartLevel()
+    {
+        StartCoroutine(RestartLevel());
+        _pauseMenu.SetActive(false);
+    }
+
+    /// <summary>
+    /// Back to main menu. Called by button.
+    /// </summary>
+    public void ButtonBackToMain()
     {
         _gameState = GameState.Over;
         _sceneLoader.GoToScene(0);
@@ -227,29 +252,9 @@ public class GameManager : MonoBehaviour
             StartCoroutine(_cameraManager.ShakeCamera());
             player.PlayDeathParticle();
             PlayLose();
-
             yield return new WaitForSeconds(_playerDeadAnimationTime);
-            // _sceneLoader.RestartScene();
-            StartCoroutine(_sceneLoader.RunAnimation(1));
 
-            yield return new WaitForSeconds(0.35f);
-            _gameState = GameState.Restart;
-            _isCameraMovable = false;
-            for (int i = 0; i < 2; i++)
-            {
-                _players[i].GetComponent<Rigidbody2D>().simulated = false;
-                if (_prevLevel < _currentLevel) _players[i].transform.position = _chapterManager.GetPlayerPos(_currentLevel, i, true);
-                else _players[i].transform.position = _chapterManager.GetPlayerPos(_currentLevel, i, false);
-            }
-
-            yield return new WaitForSeconds(1);
-            _isCameraMovable = _chapterManager.IsCameraMovable(_currentLevel);
-            for (int i = 0; i < 2; i++)
-            {
-                _players[i].GetComponent<Rigidbody2D>().simulated = true;
-                _players[i].GetComponent<Rigidbody2D>().velocity = Vector2.zero;
-            }
-            _gameState = GameState.Play;
+            StartCoroutine(RestartLevel());
         }
     }
 
