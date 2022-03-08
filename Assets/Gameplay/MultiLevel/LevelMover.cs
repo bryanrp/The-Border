@@ -36,7 +36,7 @@ public class LevelMover : PhysicsObject
             AddNumberOfTrigger(1);
             if (GameManager.Instance.CurrentLevel() != _inLevel)
             {
-                GameManager.Instance.ChangeToLevel(_inLevel);
+                StartCoroutine(GameManager.Instance.ChangeToLevel(_inLevel));
             }
         }
     }

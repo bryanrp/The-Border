@@ -21,8 +21,7 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance { get; private set; }
 
     private static CameraManager _cameraManager;
-    private const bool _isLevelCameraMovable = false;
-    private bool _isCameraMovable = _isLevelCameraMovable;
+    private bool _isCameraMovable = false;
 
     private static SceneLoader _sceneLoader;
     private static SFXManager _sfxManager;
@@ -244,7 +243,7 @@ public class GameManager : MonoBehaviour
             }
 
             yield return new WaitForSeconds(1);
-            _isCameraMovable = _isLevelCameraMovable;
+            _isCameraMovable = _chapterManager.IsCameraMovable(_currentLevel);
             for (int i = 0; i < 2; i++)
             {
                 _players[i].GetComponent<Rigidbody2D>().simulated = true;
@@ -269,7 +268,6 @@ public class GameManager : MonoBehaviour
     public Vector3 GetCameraPosInLevel(int level = -1)
     {
         if (level < 0) level = _currentLevel;
-        // return _chapterManager.GetCameraPosInLevel(level);
         return _chapterManager.GetCameraPos(level);
     }
 
@@ -277,8 +275,6 @@ public class GameManager : MonoBehaviour
     {
         return _isCameraMovable;
     }
-
-
 
     public bool IsGamePlaying()
     {
@@ -321,7 +317,7 @@ public class GameManager : MonoBehaviour
     /// Change the currentLevel to the given level.
     /// </summary>
     /// <param name="level"></param>
-    public void ChangeToLevel(int level)
+    public IEnumerator ChangeToLevel(int level)
     {
         if (level > _currentLevel)
         {
@@ -344,6 +340,9 @@ public class GameManager : MonoBehaviour
 
         _prevLevel = _currentLevel;
         _currentLevel = level;
+
+        yield return new WaitForSeconds(0.1f);
+        _isCameraMovable = _chapterManager.IsCameraMovable(_currentLevel);
     }
 
     /// <summary>

@@ -9,6 +9,7 @@ public class ChapterManager : MonoBehaviour
     [SerializeField] private Transform _player0PosEndParent;
     [SerializeField] private Transform _player1PosStartParent;
     [SerializeField] private Transform _player1PosEndParent;
+    [SerializeField] private List<int> _levelsWithMovableCamera;
 
     private List<Transform> _cameraPos;
     private List<Transform> _player0PosStart;
@@ -23,6 +24,7 @@ public class ChapterManager : MonoBehaviour
         _player0PosEnd = GetSortedChildren(_player0PosEndParent);
         _player1PosStart = GetSortedChildren(_player1PosStartParent);
         _player1PosEnd = GetSortedChildren(_player1PosEndParent);
+        _levelsWithMovableCamera.Sort();
     }
 
     // Start is called before the first frame update
@@ -39,7 +41,39 @@ public class ChapterManager : MonoBehaviour
 
     private static int CompareTransformByName(Transform x, Transform y)
     {
-        return x.name.CompareTo(y.name);
+        // correct format: "Name Without Open Parantheses (X)", where X is an integer with any digit. (X) must be in the end.
+        // "Name Only" will precedes all other name.
+        int xPos = x.name.IndexOf('(');
+        int yPos = y.name.IndexOf('(');
+        if (xPos < 0)
+        {
+            if (yPos < 0)
+            {
+                Debug.LogWarning("There are two LevelPosition's GameObject's name that is not numbered or not formatted correctly");
+                return 0;
+            }
+            else return -1;
+        }
+        else if (yPos < 0)
+        {
+            return 1;
+        }
+        else
+        {
+            xPos++; yPos++;
+            int xNum, yNum;
+            if (!int.TryParse(x.name.Substring(xPos, x.name.Length - xPos - 1), out xNum))
+            {
+                Debug.LogWarning("LevelPosition's GameObject's name is not formatted correctly");
+                return 0;
+            }
+            if (!int.TryParse(y.name.Substring(yPos, y.name.Length - yPos - 1), out yNum))
+            {
+                Debug.LogWarning("LevelPosition's GameObject's name is not formatted correctly");
+                return 0;
+            }
+            return xNum.CompareTo(yNum);
+        }
     }
 
     private static List<Transform> GetSortedChildren(Transform parent)
@@ -71,5 +105,10 @@ public class ChapterManager : MonoBehaviour
     public Vector3 GetCameraPos(int level)
     {
         return _cameraPos[level].position;
+    }
+
+    public bool IsCameraMovable(int level)
+    {
+        return (_levelsWithMovableCamera.BinarySearch(level) >= 0);
     }
 }
