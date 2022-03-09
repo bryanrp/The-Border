@@ -13,6 +13,8 @@ GameObject:
   - component: {fileID: 6437787921909875659}
   - component: {fileID: 5219250376636233653}
   - component: {fileID: 1886388709}
+  - component: {fileID: 6607606739598892515}
+  - component: {fileID: 1445143316607564502}
   m_Layer: 0
   m_Name: Game Manager
   m_TagString: Untagged
@@ -46,9 +48,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4650b440df5433045af5f556cb59b502, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  players: []
-  playerDeathParticle: {fileID: 8392242762316868005, guid: f4368c7f07368834cbcf60cc82b4cbc0, type: 3}
-  cutscene: 0
+  _startLevel: 0
+  _clipStart: {fileID: 8300000, guid: 79180f511d89441b9aa23ccae1992fe0, type: 3}
+  _clipPause: {fileID: 8300000, guid: cf6c0e7fbef9449c98a0cdb5ea0c4d9f, type: 3}
+  _clipWin: {fileID: 8300000, guid: 7bd6b897eb5ca4b7d88a205c4a51640c, type: 3}
+  _clipLose: {fileID: 8300000, guid: 5039414d94a6e4e70a5ab9e8833e992a, type: 3}
+  _clipQuit: {fileID: 8300000, guid: 724131bc8a7f34041bb9f1701f0cb58d, type: 3}
+  _clipSwitchPlayer0: {fileID: 8300000, guid: fe0b1f9aeb45b41b089175aeeabd5d95, type: 3}
+  _clipSwitchPlayer1: {fileID: 8300000, guid: d46323e22e74e46baa241cbf48c85671, type: 3}
+  Cutscene: 0
 --- !u!114 &6437787921909875659
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -181,3 +189,33 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &6607606739598892515
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5204814027906058071}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 53cd3dbea989fb74ebf46bdc8fe07c52, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1445143316607564502
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5204814027906058071}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 36068acb9952e7447b729b3c15f83a11, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _cameraPosParent: {fileID: 0}
+  _player0PosStartParent: {fileID: 0}
+  _player0PosEndParent: {fileID: 0}
+  _player1PosStartParent: {fileID: 0}
+  _player1PosEndParent: {fileID: 0}
+  _levelsWithMovableCamera: 

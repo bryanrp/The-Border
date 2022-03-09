@@ -7,12 +7,18 @@ public class SceneLoader : MonoBehaviour
 {
     private const float _animationTime = 1.0f;
 
+    public static SceneLoader Instance { get; private set; }
     private Animator _animator;
+
+    private void Awake()
+    {
+        Instance = this;
+        _animator = GameObject.Find("Fade").GetComponent<Animator>();
+    }
 
     // Start is called before the first frame update
     void Start()
     {
-        _animator = GameObject.Find("Fade").GetComponent<Animator>();
     }
 
     // Update is called once per frame

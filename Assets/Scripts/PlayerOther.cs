@@ -11,6 +11,7 @@ public class PlayerOther : MonoBehaviour
     void Start()
     {
         _rigidbody = GetComponent<Rigidbody2D>();
+        _rigidbody.simulated = !_playerMain.IsActive();
     }
 
     // Update is called once per frame

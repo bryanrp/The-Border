@@ -7,15 +7,6 @@ using UnityEditor;
 
 public class GameManager : MonoBehaviour
 {
-    private enum GameState
-    {
-        Play,
-        Pause,
-        Map,
-        Restart,
-        Over
-    }
-
     private GameState _gameState;
 
     public static GameManager Instance { get; private set; }
@@ -23,51 +14,42 @@ public class GameManager : MonoBehaviour
     private static CameraManager _cameraManager;
     private bool _isCameraMovable = false;
 
-    private static SceneLoader _sceneLoader;
-    private static SFXManager _sfxManager;
     private static ChapterManager _chapterManager;
     private static UnityEngine.Rendering.Universal.Vignette _volumeProfileVignette;
 
-    public Player[] _players;
+    private int _prevLevel = -1;
+    private int _currentLevel = 0;
+    [SerializeField] private int _startLevel = 0;
+
+    private Player[] _players;
     private int _activeType = 0;
-    private int _numberOfFinished = 0;
+
+    private float _playerDeadAnimationTime = 0.5f;
+
+    [SerializeField] private AudioClip _clipStart;
+    [SerializeField] private AudioClip _clipPause;
+    [SerializeField] private AudioClip _clipWin;
+    [SerializeField] private AudioClip _clipLose;
+    [SerializeField] private AudioClip _clipQuit;
+    [SerializeField] private AudioClip _clipSwitchPlayer0;
+    [SerializeField] private AudioClip _clipSwitchPlayer1;
 
     private GameObject _pauseMenu;
     private GameObject _doneMenu;
     private GameObject _levelText;
     private GameObject _mapText;
 
-    private float _playerDeadAnimationTime = 0.5f;
-
     private CutsceneManager _cutsceneManager;
     public bool Cutscene = false;
 
-    private int _prevLevel = -1;
-    private int _currentLevel = 0;
-    [SerializeField] private int _startLevel = 0;
-
-    // Start is called before the first frame update
     void Awake()
     {
-        if (Instance == null)
-        {
-            Instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
-        else
-        {
-            Destroy(gameObject);
-            return;
-        }
+        Instance = this;
 
-        // QualitySettings.vSyncCount = 0;
-        // Application.targetFrameRate = 30;
         _gameState = GameState.Play;
 
         AwakePhysicsManager();
 
-        _sceneLoader = GetComponent<SceneLoader>();
-        _sfxManager = GetComponent<SFXManager>();
         _cameraManager = Camera.main.GetComponent<CameraManager>();
         _chapterManager = GetComponent<ChapterManager>();
         GameObject.Find("PostProcessing")?.GetComponent<Volume>()?.profile.TryGet(out _volumeProfileVignette);
@@ -75,6 +57,8 @@ public class GameManager : MonoBehaviour
         Player playerA = GameObject.Find("PlayerA").GetComponent<Player>();
         Player playerB = GameObject.Find("PlayerB").GetComponent<Player>();
         _players = new Player[] { playerA, playerB };
+        
+        _currentLevel = _startLevel;
 
         _pauseMenu = GameObject.Find("Pause Menu");
         _doneMenu = GameObject.Find("Done Menu");
@@ -82,133 +66,27 @@ public class GameManager : MonoBehaviour
         _mapText = GameObject.Find("Map Text");
         if (_pauseMenu != null) _pauseMenu.SetActive(false);
         if (_doneMenu != null) _doneMenu.SetActive(false);
-        if (_levelText != null) _levelText.GetComponent<Text>().text = "Level " + _sceneLoader.GetActiveScene();
+        if (_levelText != null) _levelText.GetComponent<Text>().text = "Level " + (_currentLevel + 1);
         if (_mapText != null) _mapText.SetActive(false);
 
         if (Cutscene) _cutsceneManager = GameObject.Find("Cutscene Manager").GetComponent<CutsceneManager>();
-
-        _currentLevel = _startLevel;
     }
 
-    private void AwakePhysicsManager()
+    // Start is called before the first frame update
+    void Start()
     {
-        GetComponent<PhysicsManager>().GameManagerAwake();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (_gameState == GameState.Play && _numberOfFinished >= 2) GameDone();
-        if (_pauseMenu != null && _gameState == GameState.Play && Input.GetKeyDown(KeyCode.Escape))
+        if (_pauseMenu != null && IsGamePlaying() && Input.GetKeyDown(KeyCode.Escape))
         {
             if (!Cutscene) ToggleGamePause();
-            else PlayPause();
+            else SFXManager.Instance.Play(_clipPause);
         }
-        if (_mapText != null && _gameState == GameState.Play && !Cutscene && Input.GetKeyDown(KeyCode.LeftShift)) ToggleGameMap();
-        if (_gameState == GameState.Play && Input.GetKeyDown(KeyCode.S)) SwitchPlayer();
+        if (IsGamePlaying() && Input.GetKeyDown(KeyCode.S)) SwitchPlayer();
         if (_mapText != null && (IsGamePlaying() || IsGamePause()) && Input.GetKeyDown(KeyCode.R)) StartCoroutine(RestartLevel());
-    }
-
-    private void SwitchPlayer()
-    {
-        _activeType = 1 - _activeType;
-        for (int i = 0; i < 2; i++)
-        {
-            _players[i].Switch();
-        }
-        
-        _sfxManager.PlaySwitch();
-
-        if (_activeType == 0)
-        {
-            if (_volumeProfileVignette != null)
-            {
-                _volumeProfileVignette.color.value = new Color32(255, 85, 102, 255);
-            }
-        }
-        else
-        {
-            if (_volumeProfileVignette != null)
-            {
-                _volumeProfileVignette.color.value = new Color32(101, 86, 255, 255);
-            }
-        }
-    }
-
-    private void GameDone()
-    {
-        _gameState = GameState.Over;
-        if (!Cutscene) StartCoroutine(GameDoneRoutine());
-        else _cutsceneManager.StartSequence();
-    }
-
-    private IEnumerator GameDoneRoutine()
-    {
-        PlayWin();
-        yield return new WaitForSeconds(1);
-        _sceneLoader.GoToNextScene();
-    }
-
-    private void ToggleGameMap()
-    {
-        if (_gameState == GameState.Play)
-        {
-            _gameState = GameState.Map;
-            _levelText.SetActive(false);
-            _mapText.SetActive(true);
-        }
-        else
-        {
-            _gameState = GameState.Play;
-            _levelText.SetActive(true);
-            _mapText.SetActive(false);
-        }
-    }
-    
-    /// <summary>
-    /// Toggle game to pause or not.
-    /// </summary>
-    public void ToggleGamePause()
-    {
-        if (_gameState == GameState.Play)
-        {
-            _gameState = GameState.Pause;
-            _pauseMenu.SetActive(true);
-        }
-        else
-        {
-            _gameState = GameState.Play;
-            _pauseMenu.SetActive(false);
-        }
-        PlayPause();
-    }
-
-    /// <summary>
-    /// Restart the level.
-    /// </summary>
-    private IEnumerator RestartLevel()
-    {
-        _gameState = GameState.Over;
-        StartCoroutine(_sceneLoader.RunAnimation(1));
-        yield return new WaitForSeconds(0.35f);
-
-        _gameState = GameState.Restart;
-        _isCameraMovable = false;
-        for (int i = 0; i < 2; i++)
-        {
-            _players[i].GetComponent<Rigidbody2D>().simulated = false;
-            if (_prevLevel < _currentLevel) _players[i].transform.position = _chapterManager.GetPlayerPos(_currentLevel, i, true);
-            else _players[i].transform.position = _chapterManager.GetPlayerPos(_currentLevel, i, false);
-        }
-        yield return new WaitForSeconds(1);
-
-        _isCameraMovable = _chapterManager.IsCameraMovable(_currentLevel);
-        for (int i = 0; i < 2; i++)
-        {
-            _players[i].GetComponent<Rigidbody2D>().simulated = true;
-            _players[i].GetComponent<Rigidbody2D>().velocity = Vector2.zero;
-        }
-        _gameState = GameState.Play;
     }
 
     /// <summary>
@@ -226,16 +104,16 @@ public class GameManager : MonoBehaviour
     public void ButtonBackToMain()
     {
         _gameState = GameState.Over;
-        _sceneLoader.GoToScene(0);
-        PlayQuit();
+        SceneLoader.Instance.GoToScene(0);
+        SFXManager.Instance.Play(_clipQuit);
     }
 
     /// <summary>
     /// Quit the game
     /// </summary>
-    public void QuitGame()
+    public void ButtonQuitGame()
     {
-        PlayQuit();
+        SFXManager.Instance.Play(_clipQuit);
 #if UNITY_EDITOR
         EditorApplication.isPlaying = false;
 #else
@@ -245,24 +123,17 @@ public class GameManager : MonoBehaviour
 
     public IEnumerator GameOver(Player player)
     {
-        if (_gameState == GameState.Play)
+        if (IsGamePlaying())
         {
             _gameState = GameState.Over;
 
             StartCoroutine(_cameraManager.ShakeCamera());
             player.PlayDeathParticle();
-            PlayLose();
+            SFXManager.Instance.Play(_clipLose);
             yield return new WaitForSeconds(_playerDeadAnimationTime);
 
             StartCoroutine(RestartLevel());
         }
-    }
-
-    public void CutsceneDone()
-    {
-        Cutscene = false;
-        _gameState = GameState.Play;
-        _numberOfFinished = 0;
     }
 
     /// <summary>
@@ -328,8 +199,6 @@ public class GameManager : MonoBehaviour
         {
             for (int i = 0; i < 2; i++)
             {
-                // _players[i].MovePosition(_playerPosAtLevelStart[level][i]);
-                // _players[i].transform.position = _chapterManager.GetPlayerPosAtLevelStart(level, i);
                 _players[i].transform.position = _chapterManager.GetPlayerPos(level, i, true);
             }
         }
@@ -337,8 +206,6 @@ public class GameManager : MonoBehaviour
         {
             for (int i = 0; i < 2; i++)
             {
-                // _players[i].MovePosition(_playerPosAtLevelEnd[level][i]);
-                // _players[i].transform.position = _chapterManager.GetPlayerPosAtLevelEnd(level, i);
                 _players[i].transform.position = _chapterManager.GetPlayerPos(level, i, false);
             }
         }
@@ -359,53 +226,108 @@ public class GameManager : MonoBehaviour
         return _currentLevel;
     }
 
-    public void PlayJump()
+    private void SwitchPlayer()
     {
-        _sfxManager.PlayJump();
+        _activeType = 1 - _activeType;
+        for (int i = 0; i < 2; i++)
+        {
+            _players[i].Switch();
+        }
+
+        if (_activeType == 0)
+        {
+            if (_volumeProfileVignette != null)
+            {
+                _volumeProfileVignette.color.value = new Color32(255, 85, 102, 255);
+            }
+        }
+        else
+        {
+            if (_volumeProfileVignette != null)
+            {
+                _volumeProfileVignette.color.value = new Color32(101, 86, 255, 255);
+            }
+        }
+
+        SFXManager.Instance.Play((Random.Range(0, 2) == 0 ? _clipSwitchPlayer0 : _clipSwitchPlayer1));
     }
 
-    public void PlayTargetIn()
+    private void ToggleGameMap()
     {
-        _sfxManager.PlayTargetIn();
+        if (_gameState == GameState.Play)
+        {
+            _gameState = GameState.Map;
+            _levelText.SetActive(false);
+            _mapText.SetActive(true);
+        }
+        else
+        {
+            _gameState = GameState.Play;
+            _levelText.SetActive(true);
+            _mapText.SetActive(false);
+        }
+    }
+    
+    /// <summary>
+    /// Toggle game to pause or not.
+    /// </summary>
+    private void ToggleGamePause()
+    {
+        if (_gameState == GameState.Play)
+        {
+            _gameState = GameState.Pause;
+            _pauseMenu.SetActive(true);
+        }
+        else
+        {
+            _gameState = GameState.Play;
+            _pauseMenu.SetActive(false);
+        }
+        SFXManager.Instance.Play(_clipPause);
     }
 
-    public void PlayTargetOut()
+    /// <summary>
+    /// Restart the level.
+    /// </summary>
+    private IEnumerator RestartLevel()
     {
-        _sfxManager.PlayTargetOut();
+        if (IsGamePlaying() || IsGamePause() || IsGameOver())
+        {
+            _gameState = GameState.Pause;
+            StartCoroutine(SceneLoader.Instance.RunAnimation(1));
+            yield return new WaitForSeconds(0.35f);
+
+            _gameState = GameState.Restart;
+            _isCameraMovable = false;
+            for (int i = 0; i < 2; i++)
+            {
+                _players[i].GetComponent<Rigidbody2D>().simulated = false;
+                if (_prevLevel < _currentLevel) _players[i].transform.position = _chapterManager.GetPlayerPos(_currentLevel, i, true);
+                else _players[i].transform.position = _chapterManager.GetPlayerPos(_currentLevel, i, false);
+            }
+            yield return new WaitForSeconds(1);
+
+            _isCameraMovable = _chapterManager.IsCameraMovable(_currentLevel);
+            for (int i = 0; i < 2; i++)
+            {
+                _players[i].GetComponent<Rigidbody2D>().simulated = true;
+                _players[i].GetComponent<Rigidbody2D>().velocity = Vector2.zero;
+            }
+            _gameState = GameState.Play;
+        }
     }
 
-    public void PlayTargetSwitch()
+    private void AwakePhysicsManager()
     {
-        _sfxManager.PlayTargetSwitch();
+        GetComponent<PhysicsManager>().GameManagerAwake();
     }
 
-    public void PlayExplode()
+    private enum GameState
     {
-        _sfxManager.PlayExplode();
-    }
-
-    public void PlayLose()
-    {
-        _sfxManager.PlayLose();
-    }
-
-    public void PlayWin()
-    {
-        _sfxManager.PlayWin();
-    }
-
-    public void PlayPause()
-    {
-        _sfxManager.PlayPause();
-    }
-
-    public void PlayStart()
-    {
-        _sfxManager.PlayStart();
-    }
-
-    public void PlayQuit()
-    {
-        _sfxManager.PlayQuit();
+        Play,
+        Pause,
+        Map,
+        Restart,
+        Over
     }
 }

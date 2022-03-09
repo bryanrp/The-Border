@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class SFXManager : MonoBehaviour
 {
+    public static SFXManager Instance { get; private set; }
+
     private AudioSource _audioSource;
 
     public AudioClip jump;
@@ -22,6 +24,7 @@ public class SFXManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Instance = this;
         _audioSource = GetComponent<AudioSource>();
     }
 
@@ -31,70 +34,9 @@ public class SFXManager : MonoBehaviour
         
     }
 
-    public void PlayJump()
+    public void Play(AudioClip audioClip)
     {
-        _audioSource.clip = jump;
-        _audioSource.Play();
-    }
-
-    public void PlaySwitch()
-    {
-        if (Random.Range(0, 2) == 0) _audioSource.clip = switchA;
-        else _audioSource.clip = switchB;
-        _audioSource.Play();
-    }
-
-    public void PlayTargetIn()
-    {
-        _audioSource.clip = targetIn;
-        _audioSource.Play();
-    }
-    
-    public void PlayTargetOut()
-    {
-        _audioSource.clip = targetOut;
-        _audioSource.Play();
-    }
-
-    public void PlayTargetSwitch()
-    {
-        _audioSource.clip = targetSwitch;
-        _audioSource.Play();
-    }
-
-    public void PlayExplode()
-    {
-        _audioSource.clip = explode;
-        _audioSource.Play();
-    }
-
-    public void PlayLose()
-    {
-        _audioSource.clip = lose;
-        _audioSource.Play();
-    }
-
-    public void PlayWin()
-    {
-        _audioSource.clip = win;
-        _audioSource.Play();
-    }
-
-    public void PlayPause()
-    {
-        _audioSource.clip = pause;
-        _audioSource.Play();
-    }
-
-    public void PlayStart()
-    {
-        _audioSource.clip = start;
-        _audioSource.Play();
-    }
-
-    public void PlayQuit()
-    {
-        _audioSource.clip = quit;
+        _audioSource.clip = audioClip;
         _audioSource.Play();
     }
 }

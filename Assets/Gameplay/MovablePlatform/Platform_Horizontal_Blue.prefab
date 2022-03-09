@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 6127508378164877373}
   - component: {fileID: 5225781299925139604}
   - component: {fileID: 4089249215578191844}
+  - component: {fileID: 8821211895291075490}
   m_Layer: 0
   m_Name: Platform_Horizontal_Blue
   m_TagString: MovablePlatform
@@ -109,3 +110,17 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 3, y: 0.5}
   m_EdgeRadius: 0
+--- !u!114 &8821211895291075490
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7922224994701544734}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c986cece13073224ab606b1e212a62d4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _duplicateAtStart: 0
+  _physicsType: 0

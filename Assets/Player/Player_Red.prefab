@@ -513,10 +513,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Type: 0
-  IsAttached: 0
-  _arrow: {fileID: 33881384251495161}
   _playerOtherPrefab: {fileID: 1039883480067710924, guid: e0d29cbded1cfb945a38c3a3a584a975, type: 3}
   _horizontalSpeed: 5
+  IsAttached: 0
+  _arrow: {fileID: 33881384251495161}
+  _clipJump: {fileID: 8300000, guid: 2c5292ba5cf254919a6b9e2b18e04f49, type: 3}
 --- !u!1 &2708320906841675902
 GameObject:
   m_ObjectHideFlags: 0

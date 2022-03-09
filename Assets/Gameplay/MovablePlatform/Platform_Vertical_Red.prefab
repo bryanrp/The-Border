@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 2103528614736500344}
   - component: {fileID: 7980768545841559742}
   - component: {fileID: 8483603591885325981}
+  - component: {fileID: -8928504742289848966}
   m_Layer: 0
   m_Name: Platform_Vertical_Red
   m_TagString: MovablePlatform
@@ -109,3 +110,17 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.5, y: 3}
   m_EdgeRadius: 0
+--- !u!114 &-8928504742289848966
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1307606257926168229}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c986cece13073224ab606b1e212a62d4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _duplicateAtStart: 0
+  _physicsType: 0

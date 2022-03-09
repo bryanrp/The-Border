@@ -41,6 +41,27 @@ public class CameraManager : MonoBehaviour
         transform.position = Vector3.SmoothDamp(transform.position, _target, ref _velocity, _smoothTime);
     }
 
+    public IEnumerator ShakeCamera(float duration = 0.1f, float magnitude = 0.1f)
+    {
+        float x = transform.position.x;
+        float y = transform.position.y;
+        float z = transform.position.z;
+        float elapsed = 0;
+
+        while (elapsed < duration)
+        {
+            float dx = Random.Range(-magnitude, magnitude);
+            float dy = Random.Range(-magnitude, magnitude);
+            transform.position = new Vector3(x + dx, y + dy, z);
+
+            yield return null;
+
+            elapsed += Time.deltaTime;
+        }
+
+        transform.position = new Vector3(x, y, z);
+    }
+
     private void MoveCamera()
     {
         float dx = Mathf.Abs(_players[0].transform.position.x - _players[1].transform.position.x);
@@ -126,26 +147,5 @@ public class CameraManager : MonoBehaviour
                 }
             }
         }
-    }
-
-    public IEnumerator ShakeCamera(float duration = 0.1f, float magnitude = 0.1f)
-    {
-        float x = transform.position.x;
-        float y = transform.position.y;
-        float z = transform.position.z;
-        float elapsed = 0;
-
-        while (elapsed < duration)
-        {
-            float dx = Random.Range(-magnitude, magnitude);
-            float dy = Random.Range(-magnitude, magnitude);
-            transform.position = new Vector3(x + dx, y + dy, z);
-
-            yield return null;
-
-            elapsed += Time.deltaTime;
-        }
-
-        transform.position = new Vector3(x, y, z);
     }
 }

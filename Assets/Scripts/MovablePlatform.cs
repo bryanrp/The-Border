@@ -155,36 +155,15 @@ public class MovablePlatform : PhysicsObject
         }
     }
 
-    IEnumerator ResetPlayerAtNextFixedUpdate(Player player)
-    {
-        yield return new WaitForFixedUpdate();
-        _resetPrevPlayer = player;
-    }
-
-    [System.Obsolete("No need to use currently")]
-    public Vector2 GetSpeed()
-    {
-        if (!IsDuplicate()) return _physicsPrimary.GetComponent<MovablePlatform>().GetSpeed();
-        else if (_isMoving)
-        {
-            float physicsSimulationTimeScale = (_physicsType == GameManager.Instance.GetActiveType() ? 0.1f : 1f);
-            if (_isActive)
-            {
-                Debug.Log("Returned X speed: " + (_targetPosition.normalized.x * _moveToSpeed) + "; duplicate: " + IsDuplicate());
-                return _targetPosition.normalized * _moveToSpeed * physicsSimulationTimeScale;
-            }
-            else
-            {
-                Debug.Log("Returned X speed: " + (-_targetPosition.normalized.x * _moveToSpeed) + "; duplicate: " + IsDuplicate());
-                return -_targetPosition.normalized * _moveBackSpeed * physicsSimulationTimeScale;
-            }
-        }
-        else return Vector2.zero;
-    }
-
     public void AttachPlayer(Player player)
     {
         if (IsDuplicate()) ((MovablePlatform)_physicsPrimary).AttachPlayer(player);
         else _attachedPlayer = player;
+    }
+
+    private IEnumerator ResetPlayerAtNextFixedUpdate(Player player)
+    {
+        yield return new WaitForFixedUpdate();
+        _resetPrevPlayer = player;
     }
 }

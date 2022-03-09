@@ -37,6 +37,41 @@ public class PhysicsObject : MonoBehaviour
         
     }
 
+    public void SetSecondary(PhysicsObject primary)
+    {
+        if (_physicsPrimary != null) Debug.LogWarning("Reassigning physicsObject to a PhysicsObject that already have a _physicsPrimary");
+        _physicsPrimary = primary;
+
+        SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
+        if (spriteRenderer != null)
+        {
+            spriteRenderer.enabled = false;
+        }
+    }
+
+    public void SetPrimary(PhysicsObject secondary)
+    {
+        if (_physicsSecondary != null) Debug.LogWarning("Reassigning physicsObject to a PhysicsObject that already have a _physicsSecondary");
+        _physicsSecondary = secondary;
+        
+        SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
+        if (spriteRenderer != null)
+        {
+            spriteRenderer.enabled = true;
+        }
+    }
+
+    public void SetActive(bool value)
+    {
+        gameObject.SetActive(value);
+        if (!IsDuplicate()) _physicsSecondary.SetActive(value);
+    }
+
+    protected bool IsDuplicate()
+    {
+        return _physicsPrimary != null;
+    }
+
     private void ConnectChildWithPhysicsObject()
     {
         List<PhysicsObject> primaryChild = new List<PhysicsObject>();
@@ -68,40 +103,5 @@ public class PhysicsObject : MonoBehaviour
             }
             if (!found) Debug.LogError("Child with name: " + primaryChild[i].name + " does not have a pair");
         }
-    }
-
-    protected bool IsDuplicate()
-    {
-        return _physicsPrimary != null;
-    }
-
-    public void SetSecondary(PhysicsObject primary)
-    {
-        if (_physicsPrimary != null) Debug.LogWarning("Reassigning physicsObject to a PhysicsObject that already have a _physicsPrimary");
-        _physicsPrimary = primary;
-
-        SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
-        if (spriteRenderer != null)
-        {
-            spriteRenderer.enabled = false;
-        }
-    }
-
-    public void SetPrimary(PhysicsObject secondary)
-    {
-        if (_physicsSecondary != null) Debug.LogWarning("Reassigning physicsObject to a PhysicsObject that already have a _physicsSecondary");
-        _physicsSecondary = secondary;
-        
-        SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
-        if (spriteRenderer != null)
-        {
-            spriteRenderer.enabled = true;
-        }
-    }
-
-    public void SetActive(bool value)
-    {
-        gameObject.SetActive(value);
-        if (!IsDuplicate()) _physicsSecondary.SetActive(value);
     }
 }

@@ -8,6 +8,8 @@ public class Player : MonoBehaviour
     private PlayerOther _playerOther;
     public int Type;
     private bool _active = true;
+    [SerializeField] private GameObject _playerOtherPrefab;
+    [SerializeField] private float _horizontalSpeed = 5;
 
     // Movement
     private Rigidbody2D _rigidbody;
@@ -22,8 +24,8 @@ public class Player : MonoBehaviour
     private float _arrowTranslateScale = 0.1f;
     private float _arrowPrevY = 0;
 
-    [SerializeField] private GameObject _playerOtherPrefab;
-    [SerializeField] private float _horizontalSpeed = 5;
+    // AudioClip
+    [SerializeField] private AudioClip _clipJump;
 
     // Start is called before the first frame update
     void Start()
@@ -75,7 +77,7 @@ public class Player : MonoBehaviour
             _jumpLastTime = -1;
             SetSpeedY(Mathf.Max(0, _rigidbody.velocity.y));
             _rigidbody.AddForce(new Vector2(0, _jumpForce), ForceMode2D.Impulse);
-            GameManager.Instance.PlayJump();
+            SFXManager.Instance.Play(_clipJump);
         }
     }
 

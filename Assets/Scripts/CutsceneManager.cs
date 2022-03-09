@@ -71,10 +71,10 @@ public class CutsceneManager : MonoBehaviour
         particle.GetComponent<ParticleSystem>().Play();
         StartCoroutine(cameraManager.ShakeCamera());
         platform.SetActive(false);
-        gameManager.PlayExplode();
+        // gameManager.PlayExplode();
 
         yield return new WaitForSeconds(1);
-        gameManager.CutsceneDone();
+        // gameManager.CutsceneDone();
     }
 
     IEnumerator ShakePlatform()

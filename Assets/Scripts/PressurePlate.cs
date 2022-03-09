@@ -44,6 +44,22 @@ public class PressurePlate : PhysicsObject
         }
     }
 
+    public void AddNumberOfActivatingPlayers(int delta)
+    {
+        if (!IsDuplicate()) _numberOfActivatingPlayers += delta;
+        else ((PressurePlate)_physicsPrimary).AddNumberOfActivatingPlayers(delta);
+    }
+
+    protected virtual void Activate()
+    {
+        _spriteRenderer.sprite = _spriteActivated;
+    }
+
+    protected virtual void Deactivate()
+    {
+        _spriteRenderer.sprite = _spriteDeactivated;
+    }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("Player"))
@@ -58,21 +74,5 @@ public class PressurePlate : PhysicsObject
         {
             AddNumberOfActivatingPlayers(-1);
         }
-    }
-
-    protected virtual void Activate()
-    {
-        _spriteRenderer.sprite = _spriteActivated;
-    }
-
-    protected virtual void Deactivate()
-    {
-        _spriteRenderer.sprite = _spriteDeactivated;
-    }
-
-    public void AddNumberOfActivatingPlayers(int delta)
-    {
-        if (!IsDuplicate()) _numberOfActivatingPlayers += delta;
-        else ((PressurePlate)_physicsPrimary).AddNumberOfActivatingPlayers(delta);
     }
 }
