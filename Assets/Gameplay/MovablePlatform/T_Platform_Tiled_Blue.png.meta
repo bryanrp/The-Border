@@ -1,7 +1,34 @@
 fileFormatVersion: 2
-guid: 2a5beb0e2f73432459822c15cb25be1e
+guid: fdb5c155d20395f429a5e870e22b3bda
 TextureImporter:
-  internalIDToNameTable: []
+  internalIDToNameTable:
+  - first:
+      213: -8228368543441371949
+    second: Platform_Tiled_Blue_0
+  - first:
+      213: -4756591965807357811
+    second: Platform_Tiled_Blue_1
+  - first:
+      213: 6211597181452826411
+    second: Platform_Tiled_Blue_2
+  - first:
+      213: -8031477150428218010
+    second: Platform_Tiled_Blue_3
+  - first:
+      213: -800122542834233375
+    second: Platform_Tiled_Blue_4
+  - first:
+      213: 4468260277716532854
+    second: Platform_Tiled_Blue_5
+  - first:
+      213: 759011134519519983
+    second: Platform_Tiled_Blue_6
+  - first:
+      213: 3310876731812650646
+    second: Platform_Tiled_Blue_7
+  - first:
+      213: -2807188539280786003
+    second: Platform_Tiled_Blue_8
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -47,7 +74,7 @@ TextureImporter:
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
   spritePixelsToUnits: 16
-  spriteBorder: {x: 16, y: 0, z: 16, w: 0}
+  spriteBorder: {x: 8, y: 8, z: 8, w: 8}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
   alphaIsTransparency: 1
@@ -66,7 +93,7 @@ TextureImporter:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
     maxTextureSize: 2048
-    resizeAlgorithm: 0
+    resizeAlgorithm: 1
     textureFormat: -1
     textureCompression: 0
     compressionQuality: 50
@@ -78,7 +105,7 @@ TextureImporter:
   - serializedVersion: 3
     buildTarget: Standalone
     maxTextureSize: 2048
-    resizeAlgorithm: 0
+    resizeAlgorithm: 1
     textureFormat: -1
     textureCompression: 0
     compressionQuality: 50
@@ -87,26 +114,35 @@ TextureImporter:
     overridden: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 3
-    buildTarget: WebGL
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 2
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
-    sprites: []
+    sprites:
+    - serializedVersion: 2
+      name: Platform_Tiled_Blue_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3dcbd2fc766fecd80800000000000000
+      internalID: -8228368543441371949
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
-    spriteID: 5e97eb03825dee720800000000000000
-    internalID: 0
+    spriteID: 3dcbd2fc766fecd80800000000000000
+    internalID: -8228368543441371949
     vertices: []
     indices: 
     edges: []

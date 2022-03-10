@@ -51,6 +51,10 @@ public class MovablePlatform : PhysicsObject
     [SerializeField] private float _moveToSpeed;
     [SerializeField] private float _moveBackSpeed;
 
+    [SerializeField] private List<SpriteRenderer> _arrowSpriteRenderers;
+    [SerializeField] private Material _arrowGlowWhite;
+    [SerializeField] private Material _arrowGlowOff;
+
     // Start is called before the first frame update
     new void Start()
     {
@@ -133,6 +137,8 @@ public class MovablePlatform : PhysicsObject
                 _attachedPlayer.SetSpeedY(0);
                 StartCoroutine(ResetPlayerAtNextFixedUpdate(_attachedPlayer));
             }
+
+            SetArrowMaterial(true);
         }
     }
 
@@ -152,6 +158,8 @@ public class MovablePlatform : PhysicsObject
                 _attachedPlayer.SetSpeedY(0);
                 StartCoroutine(ResetPlayerAtNextFixedUpdate(_attachedPlayer));
             }
+
+            SetArrowMaterial(false);
         }
     }
 
@@ -165,5 +173,13 @@ public class MovablePlatform : PhysicsObject
     {
         yield return new WaitForFixedUpdate();
         _resetPrevPlayer = player;
+    }
+
+    private void SetArrowMaterial(bool isGlow)
+    {
+        foreach (SpriteRenderer spriteRenderer in _arrowSpriteRenderers)
+        {
+            spriteRenderer.material = (isGlow ? _arrowGlowWhite : _arrowGlowOff);
+        }
     }
 }

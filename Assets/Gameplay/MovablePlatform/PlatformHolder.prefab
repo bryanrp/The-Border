@@ -65,6 +65,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c528662f676d28a479f438dff6acb8d2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _targetPosition: {x: 0, y: 0}
+  _duplicateAtStart: 1
+  _physicsType: 0
+  _moveVector: {x: 0, y: 0}
   _moveToSpeed: 0
   _moveBackSpeed: 0
+  _arrowSpriteRenderers: []
+  _arrowGlowWhite: {fileID: 2100000, guid: ef35dcfdbaabab346afbd91a37b857c6, type: 2}
+  _arrowGlowOff: {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
