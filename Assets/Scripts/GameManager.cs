@@ -26,6 +26,9 @@ public class GameManager : MonoBehaviour
 
     private float _playerDeadAnimationTime = 0.5f;
 
+    public float Timer { get; private set; }
+    public int DeathCounter { get; private set; }
+
     [SerializeField] private AudioClip _clipStart;
     [SerializeField] private AudioClip _clipPause;
     [SerializeField] private AudioClip _clipWin;
@@ -54,6 +57,8 @@ public class GameManager : MonoBehaviour
         _players = new Player[] { playerA, playerB };
         
         _currentLevel = _startLevel;
+        Timer = 0;
+        DeathCounter = 0;
 
         if (Cutscene) _cutsceneManager = GameObject.Find("Cutscene Manager").GetComponent<CutsceneManager>();
     }
@@ -74,6 +79,7 @@ public class GameManager : MonoBehaviour
         }
         if (IsGamePlaying() && Input.GetKeyDown(KeyCode.S)) SwitchPlayer();
         if ((IsGamePlaying() || IsGamePause()) && Input.GetKeyDown(KeyCode.R)) StartCoroutine(RestartLevel());
+        if (IsGamePlaying()) Timer += Time.deltaTime;
     }
 
     /// <summary>
@@ -113,6 +119,7 @@ public class GameManager : MonoBehaviour
         if (IsGamePlaying())
         {
             _gameState = GameState.Over;
+            DeathCounter++;
 
             StartCoroutine(_cameraManager.ShakeCamera());
             player.PlayDeathParticle();

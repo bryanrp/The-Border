@@ -5,15 +5,13 @@ Yes, README should not be used for Todo.
 ## Todo
 
 - [ ] CrushChecker should not be continuous, as a Player that moves fast (on top of a MovablePlatform) and hits a wall will be "crushed". Another solution is using PlayerCheckLeft and PlayerCheckRight, calculate the speed of each touching object, then determine whether the player get crushed or not.
-- [x] Create a separate PauseMenu.cs class
-- [x] SFXManager accepts AudioClip instead of creating different functions for each clip
 - [x] Clean all code
-- [x] Make PlatformRed and Blue as a PhysicObject
-- [x] Create a working Main Menu
-- [ ] Create a save system
 - [x] Make more decoration and make levels look more fun
-- [ ] Player particle effect
 - [x] PlatformRed and Blue sprite that indicates direction, speed, and distance
+- [ ] Create a save system or split into two chapters instead
+- [ ] End game screen (congrats and etc.)
+- [ ] Implement speedrun timer, death count, and restart count
+- [ ] Player particle effect
 - [ ] Better game over animation and effects
 
 ## Chapter 1 Level
