@@ -1938,6 +1938,7 @@ GameObject:
   - component: {fileID: 9105979733511326922}
   - component: {fileID: 9105979733511326923}
   - component: {fileID: 9105979733511326920}
+  - component: {fileID: 418738209408405552}
   m_Layer: 5
   m_Name: Level UI
   m_TagString: Untagged
@@ -2030,3 +2031,19 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!114 &418738209408405552
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9105979733511326921}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dceff224bed651e419b0dd6a84c63ad5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _pauseMenu: {fileID: 9105979731686097874}
+  _doneMenu: {fileID: 9105979733501061544}
+  _levelText: {fileID: 1861725734729658212}
+  _mapText: {fileID: 1039261532186018580}

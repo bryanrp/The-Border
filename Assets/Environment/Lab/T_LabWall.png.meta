@@ -5,6 +5,33 @@ TextureImporter:
   - first:
       213: 8668316962805832019
     second: lab-wall_17
+  - first:
+      213: 2084235934131625142
+    second: lab-wall_18
+  - first:
+      213: -4937931896194662277
+    second: lab-wall_19
+  - first:
+      213: -3465512947917542626
+    second: lab-wall_20
+  - first:
+      213: -4464539678022429824
+    second: lab-wall_21
+  - first:
+      213: -2252236727516907947
+    second: lab-wall_22
+  - first:
+      213: -4824811131927604154
+    second: lab-wall_23
+  - first:
+      213: -7037413638352776294
+    second: lab-wall_24
+  - first:
+      213: -4450610670309827128
+    second: lab-wall_25
+  - first:
+      213: -6158540940932525749
+    second: lab-wall_26
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -299,9 +326,9 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 16
-        y: 31
+        y: 32
         width: 48
-        height: 17
+        height: 16
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -320,9 +347,9 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 64
-        y: 31
+        y: 32
         width: 16
-        height: 17
+        height: 16
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -483,6 +510,195 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: lab-wall_18
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 16
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6bc15021a81bcec10800000000000000
+      internalID: 2084235934131625142
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: lab-wall_19
+      rect:
+        serializedVersion: 2
+        x: 16
+        y: 16
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b700f3a4a11f87bb0800000000000000
+      internalID: -4937931896194662277
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: lab-wall_20
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 16
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e1babdeb55608efc0800000000000000
+      internalID: -3465512947917542626
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: lab-wall_21
+      rect:
+        serializedVersion: 2
+        x: 48
+        y: 16
+        width: 32
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 08316d521d4ca02c0800000000000000
+      internalID: -4464539678022429824
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: lab-wall_22
+      rect:
+        serializedVersion: 2
+        x: 48
+        y: 0
+        width: 32
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 556344211a27eb0e0800000000000000
+      internalID: -2252236727516907947
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: lab-wall_23
+      rect:
+        serializedVersion: 2
+        x: 80
+        y: 0
+        width: 32
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 644da15a6d3da0db0800000000000000
+      internalID: -4824811131927604154
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: lab-wall_24
+      rect:
+        serializedVersion: 2
+        x: 112
+        y: 0
+        width: 32
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a935e7ce495165e90800000000000000
+      internalID: -7037413638352776294
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: lab-wall_25
+      rect:
+        serializedVersion: 2
+        x: 144
+        y: 0
+        width: 32
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8cd9e9afc214c32c0800000000000000
+      internalID: -4450610670309827128
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: lab-wall_26
+      rect:
+        serializedVersion: 2
+        x: 176
+        y: 0
+        width: 32
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b415401c4a7788aa0800000000000000
+      internalID: -6158540940932525749
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -493,7 +709,7 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures:
-    - texture: {fileID: 2800000, guid: d3d974bb08f7f054c9355687074d026a, type: 3}
+    - texture: {fileID: 2800000, guid: 13044e6688136274cb2327aa8329786b, type: 3}
       name: _Emission
   spritePackingTag: 
   pSDRemoveMatte: 0

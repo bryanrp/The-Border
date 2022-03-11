@@ -2,12 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerCrushChecker : MonoBehaviour
+public class PlayerCheckerCrush : MonoBehaviour
 {
+    private Player _playerMain;
+
     // Start is called before the first frame update
     void Start()
     {
-        
+        _playerMain = GetComponentInParent<Player>();
     }
 
     // Update is called once per frame
@@ -20,9 +22,7 @@ public class PlayerCrushChecker : MonoBehaviour
     {
         if (!collision.CompareTag("Player") && !collision.CompareTag("Checker"))
         {
-            Player player = gameObject.GetComponentInParent<Player>();
-            if (player == null) throw new System.InvalidOperationException("Parent GameObject does not have Player script attached");
-            StartCoroutine(GameManager.Instance.GameOver(player));
+            StartCoroutine(GameManager.Instance.GameOver(_playerMain));
         }
     }
 }

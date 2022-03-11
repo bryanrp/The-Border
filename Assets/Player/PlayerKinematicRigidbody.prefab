@@ -98,6 +98,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _playerMain: {fileID: 0}
   _rigidbody: {fileID: 0}
+  _left: {fileID: 0}
+  _right: {fileID: 0}
+  _down: {fileID: 0}
+  _up: {fileID: 0}
 --- !u!1 &5166584450848158137
 GameObject:
   m_ObjectHideFlags: 0
@@ -111,7 +115,7 @@ GameObject:
   - component: {fileID: 1626694352081135985}
   m_Layer: 0
   m_Name: Up
-  m_TagString: Untagged
+  m_TagString: Checker
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -168,7 +172,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e14cb8bd0e61ebe4aa7e472c466b0e5e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _type: 2
+  _direction: 1
 --- !u!1 &5917505711471128916
 GameObject:
   m_ObjectHideFlags: 0
@@ -182,7 +186,7 @@ GameObject:
   - component: {fileID: 8704501288545007337}
   m_Layer: 0
   m_Name: Down
-  m_TagString: Untagged
+  m_TagString: Checker
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -239,7 +243,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e14cb8bd0e61ebe4aa7e472c466b0e5e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _type: 3
+  _direction: 3
 --- !u!1 &6580743244754813356
 GameObject:
   m_ObjectHideFlags: 0
@@ -253,7 +257,7 @@ GameObject:
   - component: {fileID: 6711523902157779244}
   m_Layer: 0
   m_Name: Left
-  m_TagString: Untagged
+  m_TagString: Checker
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -310,7 +314,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e14cb8bd0e61ebe4aa7e472c466b0e5e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _type: 1
+  _direction: 2
 --- !u!1 &7617148508348335999
 GameObject:
   m_ObjectHideFlags: 0
@@ -324,7 +328,7 @@ GameObject:
   - component: {fileID: 6748733675093825582}
   m_Layer: 0
   m_Name: Right
-  m_TagString: Untagged
+  m_TagString: Checker
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -381,4 +385,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e14cb8bd0e61ebe4aa7e472c466b0e5e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _type: 0
+  _direction: 0

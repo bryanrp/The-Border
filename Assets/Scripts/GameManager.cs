@@ -34,11 +34,6 @@ public class GameManager : MonoBehaviour
     [SerializeField] private AudioClip _clipSwitchPlayer0;
     [SerializeField] private AudioClip _clipSwitchPlayer1;
 
-    private GameObject _pauseMenu;
-    private GameObject _doneMenu;
-    private GameObject _levelText;
-    private GameObject _mapText;
-
     private CutsceneManager _cutsceneManager;
     public bool Cutscene = false;
 
@@ -60,33 +55,25 @@ public class GameManager : MonoBehaviour
         
         _currentLevel = _startLevel;
 
-        _pauseMenu = GameObject.Find("Pause Menu");
-        _doneMenu = GameObject.Find("Done Menu");
-        _levelText = GameObject.Find("Level Text");
-        _mapText = GameObject.Find("Map Text");
-        if (_pauseMenu != null) _pauseMenu.SetActive(false);
-        if (_doneMenu != null) _doneMenu.SetActive(false);
-        if (_levelText != null) _levelText.GetComponent<Text>().text = "Level " + (_currentLevel + 1);
-        if (_mapText != null) _mapText.SetActive(false);
-
         if (Cutscene) _cutsceneManager = GameObject.Find("Cutscene Manager").GetComponent<CutsceneManager>();
     }
 
     // Start is called before the first frame update
     void Start()
     {
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (_pauseMenu != null && IsGamePlaying() && Input.GetKeyDown(KeyCode.Escape))
+        if (IsGamePlaying() && Input.GetKeyDown(KeyCode.Escape))
         {
             if (!Cutscene) ToggleGamePause();
             else SFXManager.Instance.Play(_clipPause);
         }
         if (IsGamePlaying() && Input.GetKeyDown(KeyCode.S)) SwitchPlayer();
-        if (_mapText != null && (IsGamePlaying() || IsGamePause()) && Input.GetKeyDown(KeyCode.R)) StartCoroutine(RestartLevel());
+        if ((IsGamePlaying() || IsGamePause()) && Input.GetKeyDown(KeyCode.R)) StartCoroutine(RestartLevel());
     }
 
     /// <summary>
@@ -95,7 +82,7 @@ public class GameManager : MonoBehaviour
     public void ButtonRestartLevel()
     {
         StartCoroutine(RestartLevel());
-        _pauseMenu.SetActive(false);
+        IngameUI.Instance.SetGamePause(false);
     }
 
     /// <summary>
@@ -213,6 +200,8 @@ public class GameManager : MonoBehaviour
         _prevLevel = _currentLevel;
         _currentLevel = level;
 
+        IngameUI.Instance.SetLevelText(_currentLevel + 1);
+
         yield return new WaitForSeconds(0.1f);
         _isCameraMovable = _chapterManager.IsCameraMovable(_currentLevel);
     }
@@ -257,14 +246,12 @@ public class GameManager : MonoBehaviour
         if (_gameState == GameState.Play)
         {
             _gameState = GameState.Map;
-            _levelText.SetActive(false);
-            _mapText.SetActive(true);
+            IngameUI.Instance.SetGameMap(true);
         }
         else
         {
             _gameState = GameState.Play;
-            _levelText.SetActive(true);
-            _mapText.SetActive(false);
+            IngameUI.Instance.SetGameMap(false);
         }
     }
     
@@ -276,12 +263,12 @@ public class GameManager : MonoBehaviour
         if (_gameState == GameState.Play)
         {
             _gameState = GameState.Pause;
-            _pauseMenu.SetActive(true);
+            IngameUI.Instance.SetGamePause(true);
         }
         else
         {
             _gameState = GameState.Play;
-            _pauseMenu.SetActive(false);
+            IngameUI.Instance.SetGamePause(false);
         }
         SFXManager.Instance.Play(_clipPause);
     }

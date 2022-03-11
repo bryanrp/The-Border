@@ -71,5 +71,5 @@ MonoBehaviour:
   _moveToSpeed: 0
   _moveBackSpeed: 0
   _arrowSpriteRenderers: []
-  _arrowGlowWhite: {fileID: 2100000, guid: ef35dcfdbaabab346afbd91a37b857c6, type: 2}
-  _arrowGlowOff: {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  _glowWhite: {fileID: 2100000, guid: ef35dcfdbaabab346afbd91a37b857c6, type: 2}
+  _spriteLitDefault: {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}

@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: M_GlowRed
+  m_Name: M_Glow_Blue
   m_Shader: {fileID: -6465566751694194690, guid: 117947692248c2f4bb48db616adbdbf1, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
@@ -54,7 +54,7 @@ Material:
     m_Floats:
     - _EnableExternalAlpha: 0
     m_Colors:
-    - Color_17ff906d455a4ba0ba666d0467f2c156: {r: 28.51895, g: 0, b: 0, a: 0}
+    - Color_17ff906d455a4ba0ba666d0467f2c156: {r: 0, g: 3.1802433, b: 5.3403134, a: 0}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _Flip: {r: 1, g: 1, b: 1, a: 1}
     - _RendererColor: {r: 1, g: 1, b: 1, a: 1}

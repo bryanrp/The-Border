@@ -33,14 +33,7 @@ public class Player : MonoBehaviour
         _rigidbody = GetComponent<Rigidbody2D>();
         _groundCheck = GetComponentInChildren<GroundCheck>();
 
-        if (Type == 1)
-        {
-            _active = false;
-            PhysicsManager.Instance.MoveGameObjectToScene(gameObject, Type);
-        }
-        _playerOther = Instantiate(_playerOtherPrefab).GetComponent<PlayerOther>();
-        _playerOther._playerMain = this;
-        PhysicsManager.Instance.MoveGameObjectToScene(_playerOther.gameObject, 1 - Type);
+        SetMultiPhysics();
     }
 
     // Update is called once per frame
@@ -65,30 +58,6 @@ public class Player : MonoBehaviour
         }
     }
 
-    private void ProcessMove()
-    {
-        float horizontalSpeed = Input.GetAxis("Horizontal") * _horizontalSpeed;
-        float verticalSpeed = _rigidbody.velocity.y;
-        _rigidbody.velocity = new Vector2(horizontalSpeed, verticalSpeed);
-
-        if (Input.GetKeyDown(KeyCode.Space)) _jumpLastTime = Time.time;
-        if (Time.time - _jumpLastTime < _jumpMaxDiffTime && _groundCheck.CanPlayerJump())
-        {
-            _jumpLastTime = -1;
-            SetSpeedY(Mathf.Max(0, _rigidbody.velocity.y));
-            _rigidbody.AddForce(new Vector2(0, _jumpForce), ForceMode2D.Impulse);
-            SFXManager.Instance.Play(_clipJump);
-        }
-    }
-
-    private void ProcessArrow()
-    {
-        float y = -Mathf.Abs(Mathf.Sin(2 * Time.time)) * _arrowTranslateScale;
-        float dy = y - _arrowPrevY;
-        _arrow.transform.Translate(0, dy, 0);
-        _arrowPrevY = y;
-    }
-
     public void Switch()
     {
         if ((GameManager.Instance.GetActiveType() == Type) != _active)
@@ -97,21 +66,6 @@ public class Player : MonoBehaviour
             if (_active) Activate();
             else Deactivate();
         }
-    }
-
-    private void Activate()
-    {
-        _playerOther._rigidbody.simulated = false;
-        if (IsAttached)
-        {
-            SetSpeedY(_rigidbody.velocity.y * 0.1f);
-        }
-        ProcessMove(); // for MovablePlatform: passive to active - active: dynamic v (cause when active, horizontal speed is controlled by input)
-    }
-
-    private void Deactivate()
-    {
-        _playerOther._rigidbody.simulated = true;
     }
 
     public void PlayDeathParticle()
@@ -140,5 +94,57 @@ public class Player : MonoBehaviour
     public bool IsActive()
     {
         return _active;
+    }
+
+    private void SetMultiPhysics()
+    {
+        if (Type == 1)
+        {
+            _active = false;
+            PhysicsManager.Instance.MoveGameObjectToScene(gameObject, Type);
+            // PhysicsManager.Instance.MoveGameObjectToScene(_playerCheckerCrush.gameObject, Type);
+        }
+        _playerOther = Instantiate(_playerOtherPrefab).GetComponent<PlayerOther>();
+        _playerOther._playerMain = this;
+        PhysicsManager.Instance.MoveGameObjectToScene(_playerOther.gameObject, 1 - Type);
+    }
+
+    private void ProcessMove()
+    {
+        float horizontalSpeed = Input.GetAxis("Horizontal") * _horizontalSpeed;
+        float verticalSpeed = _rigidbody.velocity.y;
+        _rigidbody.velocity = new Vector2(horizontalSpeed, verticalSpeed);
+
+        if (Input.GetKeyDown(KeyCode.Space)) _jumpLastTime = Time.time;
+        if (Time.time - _jumpLastTime < _jumpMaxDiffTime && _groundCheck.CanPlayerJump())
+        {
+            _jumpLastTime = -1;
+            SetSpeedY(Mathf.Max(0, _rigidbody.velocity.y));
+            _rigidbody.AddForce(new Vector2(0, _jumpForce), ForceMode2D.Impulse);
+            SFXManager.Instance.Play(_clipJump);
+        }
+    }
+
+    private void ProcessArrow()
+    {
+        float y = -Mathf.Abs(Mathf.Sin(2 * Time.time)) * _arrowTranslateScale;
+        float dy = y - _arrowPrevY;
+        _arrow.transform.Translate(0, dy, 0);
+        _arrowPrevY = y;
+    }
+
+    private void Activate()
+    {
+        _playerOther._rigidbody.simulated = false;
+        if (IsAttached)
+        {
+            SetSpeedY(_rigidbody.velocity.y * 0.1f);
+        }
+        ProcessMove(); // for MovablePlatform: passive to active - active: dynamic v (cause when active, horizontal speed is controlled by input)
+    }
+
+    private void Deactivate()
+    {
+        _playerOther._rigidbody.simulated = true;
     }
 }

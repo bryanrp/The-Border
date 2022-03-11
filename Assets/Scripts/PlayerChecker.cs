@@ -2,13 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerCheck : MonoBehaviour
+public class PlayerChecker : MonoBehaviour
 {
     private Player _playerMain;
     private float _resetSpeed = 0;
     private bool _reset = false;
 
-    [SerializeField] private int _type;
+    [SerializeField] private Direction _direction;
 
     // Start is called before the first frame update
     void Start()
@@ -31,28 +31,42 @@ public class PlayerCheck : MonoBehaviour
         {
             Rigidbody2D collisionRigidbody = collision.GetComponentInParent<Rigidbody2D>();
 
-            if (_type < 2)
+            if (_direction == Direction.Right)
             {
-                // horizontal
                 float x = collisionRigidbody.velocity.x;
-                if (_type == 0) x = Mathf.Min(0, x);
-                else x = Mathf.Max(0, x);
+                x = Mathf.Min(0, x);
                 if (x != 0)
                 {
-                    _playerMain.SetSpeedX(x * 10f);
                     _resetSpeed = x;
                     _reset = true;
                 }
             }
-            else
+            else if (_direction == Direction.Up)
             {
-                // up
                 float y = collisionRigidbody.velocity.y;
-                if (_type == 2) y = Mathf.Min(0, y);
-                else y = Mathf.Max(0, y);
+                y = Mathf.Min(0, y);
                 if (y != 0)
                 {
-                    _playerMain.SetSpeedY(y * 10f);
+                    _resetSpeed = y;
+                    _reset = true;
+                }
+            }
+            else if (_direction == Direction.Left)
+            {
+                float x = collisionRigidbody.velocity.x;
+                x = Mathf.Max(0, x);
+                if (x != 0)
+                {
+                    _resetSpeed = x;
+                    _reset = true;
+                }
+            }
+            else if (_direction == Direction.Down)
+            {
+                float y = collisionRigidbody.velocity.y;
+                y = Mathf.Min(0, y);
+                if (y != 0)
+                {
                     _resetSpeed = y;
                     _reset = true;
                 }
@@ -66,11 +80,19 @@ public class PlayerCheck : MonoBehaviour
         {
             if (_reset)
             {
-                if (_type < 2) _playerMain.SetSpeedX(_resetSpeed);
+                if (_direction == Direction.Left || _direction == Direction.Right) _playerMain.SetSpeedX(_resetSpeed);
                 else _playerMain.SetSpeedY(_resetSpeed);
                 _resetSpeed = 0;
                 _reset = false;
             }
         }
     }
+
+    enum Direction
+    {
+        Right,
+        Up,
+        Left,
+        Down
+    };
 }

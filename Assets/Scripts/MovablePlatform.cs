@@ -52,8 +52,14 @@ public class MovablePlatform : PhysicsObject
     [SerializeField] private float _moveBackSpeed;
 
     [SerializeField] private List<SpriteRenderer> _arrowSpriteRenderers;
-    [SerializeField] private Material _arrowGlowWhite;
-    [SerializeField] private Material _arrowGlowOff;
+    [SerializeField] private Material _glowWhite;
+    [SerializeField] private Material _spriteLitDefault;
+
+    [Tooltip("Leave size to 0 to draw line on all platforms")]
+    [SerializeField] private List<Transform> _drawLineOnSpecificPlatforms;
+    private static Color _lineColor = Color.white;
+    private static float _lineWidth = 0.03f;
+    private static float _lineZPos = 0.01f;
 
     // Start is called before the first frame update
     new void Start()
@@ -65,6 +71,11 @@ public class MovablePlatform : PhysicsObject
         _targetPosition = _startPosition + _moveVector;
 
         _prevPos = transform.position;
+
+        if (!IsDuplicate())
+        {
+            DrawLineOnPlatform();
+        }
     }
 
     // Update is called once per frame
@@ -179,7 +190,49 @@ public class MovablePlatform : PhysicsObject
     {
         foreach (SpriteRenderer spriteRenderer in _arrowSpriteRenderers)
         {
-            spriteRenderer.material = (isGlow ? _arrowGlowWhite : _arrowGlowOff);
+            spriteRenderer.material = (isGlow ? _glowWhite : _spriteLitDefault);
+        }
+    }
+
+    private void DrawLine(Vector2 startPos, Vector2 endPos)
+    {
+        GameObject lineObject = new GameObject();
+        lineObject.transform.position = new Vector3(startPos.x, startPos.y, 0.01f);
+        lineObject.AddComponent<LineRenderer>();
+        LineRenderer line = lineObject.GetComponent<LineRenderer>();
+        line.material = _spriteLitDefault;
+        line.startColor = _lineColor;
+        line.endColor = _lineColor;
+        line.startWidth = _lineWidth;
+        line.endWidth = _lineWidth;
+        line.SetPosition(0, startPos);
+        line.SetPosition(1, endPos);
+    }
+
+    private void DrawLineOnPlatform()
+    {
+        if (_drawLineOnSpecificPlatforms.Count == 0)
+        {
+            foreach (Transform child in transform)
+            {
+                if (child.CompareTag("MovablePlatform"))
+                {
+                    Vector3 startPos = child.position;
+                    Vector3 endPos = startPos + (Vector3)_moveVector;
+                    startPos.z = endPos.z = _lineZPos;
+                    DrawLine(startPos, endPos);
+                }
+            }
+        }
+        else
+        {
+            foreach (Transform platform in _drawLineOnSpecificPlatforms)
+            {
+                Vector3 startPos = platform.position;
+                Vector3 endPos = startPos + (Vector3)_moveVector;
+                startPos.z = endPos.z = _lineZPos;
+                DrawLine(startPos, endPos);
+            }
         }
     }
 }
