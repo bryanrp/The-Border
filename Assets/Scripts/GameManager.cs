@@ -20,6 +20,7 @@ public class GameManager : MonoBehaviour
     private int _prevLevel = -1;
     private int _currentLevel = 0;
     [SerializeField] private int _startLevel = 0;
+    [SerializeField] private int _numberOfLevels;
 
     private Player[] _players;
     private int _activeType = 0;
@@ -28,6 +29,7 @@ public class GameManager : MonoBehaviour
 
     public float Timer { get; private set; }
     public int DeathCounter { get; private set; }
+    public int RestartCounter { get; private set; }
 
     [SerializeField] private AudioClip _clipStart;
     [SerializeField] private AudioClip _clipPause;
@@ -77,7 +79,7 @@ public class GameManager : MonoBehaviour
             if (!Cutscene) ToggleGamePause();
             else SFXManager.Instance.Play(_clipPause);
         }
-        if (IsGamePlaying() && Input.GetKeyDown(KeyCode.S)) SwitchPlayer();
+        if ((IsGamePlaying() || IsGameDone()) && Input.GetKeyDown(KeyCode.S)) SwitchPlayer();
         if ((IsGamePlaying() || IsGamePause()) && Input.GetKeyDown(KeyCode.R)) StartCoroutine(RestartLevel());
         if (IsGamePlaying()) Timer += Time.deltaTime;
     }
@@ -96,7 +98,7 @@ public class GameManager : MonoBehaviour
     /// </summary>
     public void ButtonBackToMain()
     {
-        _gameState = GameState.Over;
+        _gameState = GameState.Pause;
         SceneLoader.Instance.GoToScene(0);
         SFXManager.Instance.Play(_clipQuit);
     }
@@ -118,7 +120,7 @@ public class GameManager : MonoBehaviour
     {
         if (IsGamePlaying())
         {
-            _gameState = GameState.Over;
+            _gameState = GameState.Pause;
             DeathCounter++;
 
             StartCoroutine(_cameraManager.ShakeCamera());
@@ -151,9 +153,9 @@ public class GameManager : MonoBehaviour
         return _gameState == GameState.Play;
     }
 
-    public bool IsGameOver()
+    public bool IsGameDone()
     {
-        return _gameState == GameState.Over;
+        return _gameState == GameState.Done;
     }
 
     public bool IsGameRestart()
@@ -173,8 +175,8 @@ public class GameManager : MonoBehaviour
 
     public int GetActiveType()
     {
-        if (_gameState != GameState.Play) return -1;
-        else return _activeType;
+        if (IsGamePlaying() || IsGameDone()) return _activeType;
+        else return -1;
     }
 
     public Player GetPlayer(int type = -1)
@@ -207,10 +209,18 @@ public class GameManager : MonoBehaviour
         _prevLevel = _currentLevel;
         _currentLevel = level;
 
-        IngameUI.Instance.SetLevelText(_currentLevel + 1);
-
         yield return new WaitForSeconds(0.1f);
         _isCameraMovable = _chapterManager.IsCameraMovable(_currentLevel);
+
+        if (_currentLevel < _numberOfLevels)
+        {
+            IngameUI.Instance.SetLevelText(_currentLevel + 1);
+        }
+        else
+        {
+            _gameState = GameState.Done;
+            IngameUI.Instance.SetGameDone();
+        }
     }
 
     /// <summary>
@@ -285,8 +295,9 @@ public class GameManager : MonoBehaviour
     /// </summary>
     private IEnumerator RestartLevel()
     {
-        if (IsGamePlaying() || IsGamePause() || IsGameOver())
+        if (IsGamePlaying() || IsGamePause())
         {
+            RestartCounter++;
             _gameState = GameState.Pause;
             StartCoroutine(SceneLoader.Instance.RunAnimation(1));
             yield return new WaitForSeconds(0.35f);
@@ -322,6 +333,6 @@ public class GameManager : MonoBehaviour
         Pause,
         Map,
         Restart,
-        Over
+        Done
     }
 }

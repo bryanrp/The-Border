@@ -11,7 +11,11 @@ public class IngameUI : MonoBehaviour
     [SerializeField] private GameObject _doneMenu;
     [SerializeField] private Text _levelText;
     [SerializeField] private Text _timerText;
-    [SerializeField] private GameObject _mapText;
+    [SerializeField] private Text _mapText;
+
+    [SerializeField] private Text _doneTimerText;
+    [SerializeField] private Text _doneDeathText;
+    [SerializeField] private Text _doneRestartText;
 
     // Start is called before the first frame update
     void Start()
@@ -62,7 +66,7 @@ public class IngameUI : MonoBehaviour
         else
         {
             // currently not needed
-            _mapText.SetActive(false);
+            _mapText.gameObject.SetActive(false);
         }
     }
 
@@ -79,13 +83,23 @@ public class IngameUI : MonoBehaviour
 
     public void SetGameMap(bool isMap)
     {
-        _mapText.SetActive(isMap);
+        _mapText.gameObject.SetActive(isMap);
         _levelText.gameObject.SetActive(!isMap);
     }
 
     public void SetLevelText(int level)
     {
         _levelText.text = "Level " + level;
+    }
+
+    public void SetGameDone()
+    {
+        _levelText.gameObject.SetActive(false);
+        _timerText.gameObject.SetActive(false);
+        _doneMenu.SetActive(true);
+        _doneTimerText.text = _timerText.text;
+        _doneDeathText.text = GameManager.Instance.DeathCounter.ToString("D2");
+        _doneRestartText.text = (GameManager.Instance.RestartCounter - GameManager.Instance.DeathCounter).ToString("D2");
     }
 
     private void UpdateTimer()
@@ -97,6 +111,6 @@ public class IngameUI : MonoBehaviour
         timer -= second;
         int milisecond = Mathf.FloorToInt(timer * 100);
 
-        _timerText.text = minute.ToString("D3") + " : " + second.ToString("D2") + " : " + milisecond.ToString("D2");
+        _timerText.text = minute.ToString("D2") + " : " + second.ToString("D2") + " : " + milisecond.ToString("D2");
     }
 }
