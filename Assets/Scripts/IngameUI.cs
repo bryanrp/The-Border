@@ -17,6 +17,8 @@ public class IngameUI : MonoBehaviour
     [SerializeField] private Text _doneDeathText;
     [SerializeField] private Text _doneRestartText;
 
+    [SerializeField] private GameObject _skipLevel;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -47,7 +49,7 @@ public class IngameUI : MonoBehaviour
         }
         else
         {
-            _levelText.text = "Level " + 1;
+            _levelText.text = "Lv " + (GameManager.Instance.CurrentLevel() + 1) + " / " + GameManager.Instance.TotalLevels();
         }
 
         if (_timerText == null)
@@ -87,9 +89,9 @@ public class IngameUI : MonoBehaviour
         _levelText.gameObject.SetActive(!isMap);
     }
 
-    public void SetLevelText(int level)
+    public void SetLevelText(int level, int totalLevel)
     {
-        _levelText.text = "Level " + level;
+        _levelText.text = "Lv " + level + " / " + totalLevel;
     }
 
     public void SetGameDone()
@@ -100,6 +102,11 @@ public class IngameUI : MonoBehaviour
         _doneTimerText.text = _timerText.text;
         _doneDeathText.text = GameManager.Instance.DeathCounter.ToString("D2");
         _doneRestartText.text = (GameManager.Instance.RestartCounter - GameManager.Instance.DeathCounter).ToString("D2");
+    }
+
+    public void SetSkipLevel(bool isShow)
+    {
+        _skipLevel.SetActive(isShow);
     }
 
     private void UpdateTimer()

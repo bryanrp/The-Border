@@ -19,8 +19,12 @@ public class GameManager : MonoBehaviour
 
     private int _prevLevel = -1;
     private int _currentLevel = 0;
+    private int _lastLevel = 0;
     [SerializeField] private int _startLevel = 0;
-    [SerializeField] private int _numberOfLevels;
+    [SerializeField] private int _totalLevels;
+
+    private static float _minTimeToSkipLevel = 180f;
+    private float _timeLastLevel = 0;
 
     private Player[] _players;
     private int _activeType = 0;
@@ -46,7 +50,8 @@ public class GameManager : MonoBehaviour
     {
         Instance = this;
 
-        _gameState = GameState.Play;
+        if (_totalLevels == 0) _gameState = GameState.Done;
+        else _gameState = GameState.Play;
 
         AwakePhysicsManager();
 
@@ -81,7 +86,16 @@ public class GameManager : MonoBehaviour
         }
         if ((IsGamePlaying() || IsGameDone()) && Input.GetKeyDown(KeyCode.S)) SwitchPlayer();
         if ((IsGamePlaying() || IsGamePause()) && Input.GetKeyDown(KeyCode.R)) StartCoroutine(RestartLevel());
-        if (IsGamePlaying()) Timer += Time.deltaTime;
+        
+        if (IsGamePlaying())
+        {
+            Timer += Time.deltaTime;
+        }
+        if (!IsGameDone())
+        {
+            _timeLastLevel += Time.deltaTime;
+            IngameUI.Instance.SetSkipLevel(_timeLastLevel > _minTimeToSkipLevel);
+        }
     }
 
     /// <summary>
@@ -91,6 +105,18 @@ public class GameManager : MonoBehaviour
     {
         StartCoroutine(RestartLevel());
         IngameUI.Instance.SetGamePause(false);
+    }
+
+    /// <summary>
+    /// Skip current level. Called by button.
+    /// </summary>
+    public void ButtonSkipLevel()
+    {
+        if (IsGamePlaying())
+        {
+            IngameUI.Instance.SetSkipLevel(false);
+            StartCoroutine(ChangeToLevel(_lastLevel + 1));
+        }
     }
 
     /// <summary>
@@ -191,6 +217,11 @@ public class GameManager : MonoBehaviour
     /// <param name="level"></param>
     public IEnumerator ChangeToLevel(int level)
     {
+        for (int i = 0; i < 2; i++)
+        {
+            _players[i].GetComponent<Rigidbody2D>().simulated = false;
+        }
+
         if (level > _currentLevel)
         {
             for (int i = 0; i < 2; i++)
@@ -208,18 +239,28 @@ public class GameManager : MonoBehaviour
 
         _prevLevel = _currentLevel;
         _currentLevel = level;
+        if (_lastLevel < _currentLevel)
+        {
+            _lastLevel = _currentLevel;
+            _timeLastLevel = 0;
+        }
 
         yield return new WaitForSeconds(0.1f);
+        for (int i = 0; i < 2; i++)
+        {
+            _players[i].GetComponent<Rigidbody2D>().simulated = true;
+        }
         _isCameraMovable = _chapterManager.IsCameraMovable(_currentLevel);
 
-        if (_currentLevel < _numberOfLevels)
+        if (_currentLevel < _totalLevels)
         {
-            IngameUI.Instance.SetLevelText(_currentLevel + 1);
+            IngameUI.Instance.SetLevelText(_currentLevel + 1, _totalLevels);
         }
         else
         {
             _gameState = GameState.Done;
             IngameUI.Instance.SetGameDone();
+            SFXManager.Instance.Play(_clipWin);
         }
     }
 
@@ -230,6 +271,11 @@ public class GameManager : MonoBehaviour
     public int CurrentLevel()
     {
         return _currentLevel;
+    }
+
+    public int TotalLevels()
+    {
+        return _totalLevels;
     }
 
     private void SwitchPlayer()

@@ -8,9 +8,9 @@ Yes, README should not be used for Todo.
 - [x] Clean all code
 - [x] Make more decoration and make levels look more fun
 - [x] PlatformRed and Blue sprite that indicates direction, speed, and distance
-- [ ] Create a save system or split into two chapters instead
-- [ ] End game screen (congrats and etc.)
-- [ ] Implement speedrun timer, death count, and restart count
+- [x] Create a save system or split into two chapters instead
+- [x] End game screen (congrats and etc.)
+- [x] Implement speedrun timer, death count, and restart count
 - [ ] Player particle effect
 - [ ] Better game over animation and effects
 
