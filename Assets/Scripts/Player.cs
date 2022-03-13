@@ -70,7 +70,10 @@ public class Player : MonoBehaviour
 
     public void PlayDeathParticle()
     {
-        GetComponentInChildren<ParticleSystem>().Play();
+        foreach (ParticleSystem particleSystem in GetComponentsInChildren<ParticleSystem>())
+        {
+            particleSystem.Play();
+        }
     }
 
     /// <summary>

@@ -23,7 +23,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private int _startLevel = 0;
     [SerializeField] private int _totalLevels;
 
-    private static float _minTimeToSkipLevel = 180f;
+    private static float _minTimeToSkipLevel = 120f;
     private float _timeLastLevel = 0;
 
     private Player[] _players;
